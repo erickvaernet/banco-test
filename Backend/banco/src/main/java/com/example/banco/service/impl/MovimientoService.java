@@ -1,8 +1,9 @@
 package com.example.banco.service.impl;
 
 import com.example.banco.dto.MovimientoDTO;
-import com.example.banco.dto.MovimientoDTO;
 import com.example.banco.dto.PaginaDTO;
+import com.example.banco.exception.EntityNotFoundException;
+import com.example.banco.exception.InvalidIdException;
 import com.example.banco.model.Movimiento;
 import com.example.banco.repository.IMovimientoRepository;
 import com.example.banco.service.IMovimientoService;
@@ -23,26 +24,35 @@ public class MovimientoService implements IMovimientoService {
 
     @Override
     public MovimientoDTO createMovimiento(MovimientoDTO movimientoDTO) {
-        return null;
+        Movimiento movimiento = mapToEntity(movimientoDTO);
+        Movimiento newMovimiento = movimientoRepository.save(movimiento);
+        return mapToDTO(newMovimiento);
     }
 
     @Override
     public MovimientoDTO updateMovimiento(MovimientoDTO movimientoDTO) {
-        return null;
+        Movimiento movimiento = mapToEntity(movimientoDTO);
+        Movimiento movimientoActualizada = movimientoRepository.save(movimiento);
+        movimientoDTO.setId(movimientoActualizada.getId());
+        return movimientoDTO;
     }
 
     @Override
     public MovimientoDTO findMovimientoById(Integer id) {
-        return null;
+        if(id==null || id <= 0) throw new InvalidIdException();
+        Movimiento movimiento = movimientoRepository.findById(id)
+                .orElseThrow(()-> new EntityNotFoundException(MovimientoService.ENTITY_NOT_FOUND_MESSAGE));
+        return mapToDTO(movimiento);
     }
 
     @Override
     public void deleteMovimientoById(Integer id) {
-
+        findMovimientoById(id);
+        movimientoRepository.deleteById(id);
     }
 
     @Override
-    public PaginaDTO<MovimientoDTO> findAllMovimientos(Integer page, Integer size) {
+    public PaginaDTO<MovimientoDTO> findAllMovimientos(Integer numeroPagina, Integer tamanioPagina) {
         return null;
     }
     

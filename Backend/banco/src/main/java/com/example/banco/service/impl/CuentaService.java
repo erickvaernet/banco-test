@@ -1,8 +1,9 @@
 package com.example.banco.service.impl;
 
 import com.example.banco.dto.CuentaDTO;
-import com.example.banco.dto.CuentaDTO;
 import com.example.banco.dto.PaginaDTO;
+import com.example.banco.exception.EntityNotFoundException;
+import com.example.banco.exception.InvalidIdException;
 import com.example.banco.model.Cuenta;
 import com.example.banco.repository.ICuentaRepository;
 import com.example.banco.service.ICuentaService;
@@ -24,27 +25,36 @@ public class CuentaService implements ICuentaService {
     }
 
     @Override
-    public CuentaDTO createCuenta(CuentaDTO CuentaDTO) {
-        return null;
+    public CuentaDTO createCuenta(CuentaDTO cuentaDTO) {
+        Cuenta cuenta = mapToEntity(cuentaDTO);
+        Cuenta newCuenta = cuentaRepository.save(cuenta);
+        return mapToDTO(newCuenta);
     }
 
     @Override
-    public CuentaDTO updateCuenta(CuentaDTO CuentaDTO) {
-        return null;
+    public CuentaDTO updateCuenta(CuentaDTO cuentaDTO) {
+        Cuenta cuenta = mapToEntity(cuentaDTO);
+        Cuenta cuentaActualizada = cuentaRepository.save(cuenta);
+        cuentaDTO.setNumeroCuenta(cuentaActualizada.getNumeroCuenta());
+        return cuentaDTO;
     }
 
     @Override
     public CuentaDTO findCuentaById(Integer id) {
-        return null;
+        if(id==null || id <= 0) throw new InvalidIdException();
+        Cuenta cuenta = cuentaRepository.findById(id)
+                .orElseThrow(()-> new EntityNotFoundException(CuentaService.ENTITY_NOT_FOUND_MESSAGE));
+        return mapToDTO(cuenta);
     }
 
     @Override
     public void deleteCuentaById(Integer id) {
-
+        findCuentaById(id);
+        cuentaRepository.deleteById(id);
     }
 
     @Override
-    public PaginaDTO<CuentaDTO> findAllCuentas(Integer page, Integer size) {
+    public PaginaDTO<CuentaDTO> findAllCuentas(Integer numeroPagina, Integer tamanioPagina) {
         return null;
     }
 

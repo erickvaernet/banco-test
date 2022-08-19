@@ -46,13 +46,13 @@ public class CuentaController {
 
     @GetMapping
     public ResponseEntity<PaginaDTO<CuentaDTO>> findAll(
-            @RequestParam(value = "pagina", required = false)Integer page,
-            @RequestParam(value = "tamanio", required = false)Integer size,
+            @RequestParam(value = "pagina", required = false)Integer numeroPagina,
+            @RequestParam(value = "tamanio", required = false)Integer tamanioPagina,
             HttpServletRequest request
     ) {
 
         PaginaDTO<CuentaDTO> paginaCuentas;
-        paginaCuentas = cuentaService.findAllCuentas(page, size);
+        paginaCuentas = cuentaService.findAllCuentas(numeroPagina, tamanioPagina);
 
         String url= request.getRequestURL().toString();
         return new ResponseEntity<>(paginaCuentas, HttpStatus.OK);

@@ -7,22 +7,27 @@ import com.example.banco.repository.IReporteRepository;
 import com.example.banco.service.IReporteService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 
-public class ReporteService implements IReporteService {
-
+@Service
+public class ReporteService  {
+/*
     private final IReporteRepository reporteRepository;
     private final ObjectMapper objectMapper;
 
-    @Autowired
+
+
     public ReporteService(IReporteRepository reporteRepository, ObjectMapper objectMapper) {
         this.reporteRepository = reporteRepository;
         this.objectMapper = objectMapper;
     }
 
     @Override
-    public PaginaDTO<ReporteDTO> getReporteByFecha(Integer page, Integer size, LocalDate fechaInicio, LocalDate fechaFin) {
+    public PaginaDTO<ReporteDTO> getReporteByFecha(Integer numeroPagina, Integer size, LocalDate fechaInicio, LocalDate fechaFin) {
         return null;
     }
+
+ */
 }

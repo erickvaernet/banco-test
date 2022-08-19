@@ -8,5 +8,5 @@ public interface IMovimientoService {
     MovimientoDTO updateMovimiento(MovimientoDTO movimientoDTO);
     MovimientoDTO findMovimientoById(Integer id);
     void deleteMovimientoById(Integer id);
-    PaginaDTO<MovimientoDTO> findAllMovimientos(Integer page, Integer size);
+    PaginaDTO<MovimientoDTO> findAllMovimientos(Integer numeroPagina, Integer tamanioPagina);
 }

@@ -4,10 +4,8 @@ import com.example.banco.dto.MovimientoDTO;
 import com.example.banco.dto.PaginaDTO;
 import com.example.banco.service.IMovimientoService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -48,13 +46,13 @@ public class MovimientoController {
 
     @GetMapping
     public ResponseEntity<PaginaDTO<MovimientoDTO>> findAll(
-            @RequestParam(value = "pagina", required = false)Integer page,
-            @RequestParam(value = "tamanio", required = false)Integer size,
+            @RequestParam(value = "pagina", required = false)Integer numeroPagina,
+            @RequestParam(value = "tamanio", required = false)Integer tamanioPagina,
             HttpServletRequest request
     ) {
 
         PaginaDTO<MovimientoDTO> paginaMovimientos;
-        paginaMovimientos = movimientoService.findAllMovimientos(page, size);
+        paginaMovimientos = movimientoService.findAllMovimientos(numeroPagina, tamanioPagina);
 
         String url= request.getRequestURL().toString();
         return new ResponseEntity<>(paginaMovimientos, HttpStatus.OK);

@@ -16,4 +16,40 @@ public class Cuenta {
     @NotBlank(message = "El saldo inicial no puede ser nulo o estar vacío")
     private Double saldoInicial;
     private String estado;
+
+    public Cuenta() {
+        //No-args constructor
+    }
+
+    public Integer getNumeroCuenta() {
+        return numeroCuenta;
+    }
+
+    public void setNumeroCuenta(Integer numeroCuenta) {
+        this.numeroCuenta = numeroCuenta;
+    }
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public Double getSaldoInicial() {
+        return saldoInicial;
+    }
+
+    public void setSaldoInicial(Double saldoInicial) {
+        this.saldoInicial = saldoInicial;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
+    }
 }

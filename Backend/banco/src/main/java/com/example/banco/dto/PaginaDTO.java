@@ -1,21 +1,21 @@
 package com.example.banco.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
 
 import java.util.List;
 
 public class PaginaDTO <T>{
     private long cantidad;
     private List<T> resultados;
-    @JsonIgnore
+
     private Integer tamanioDePagina;
-    @JsonIgnore
+
     private Integer numeroDePagina;
 
     public PaginaDTO( Integer numeroDePagina,Integer tamanioDePagina,long cantidad, List<T> resultados ) {
         this.cantidad = cantidad;
         this.resultados = resultados;
-        this.tamanioDePagina = tamanioDePagina==null ? 8 : tamanioDePagina;
+        this.tamanioDePagina = tamanioDePagina==null ? 10 : tamanioDePagina;
         this.numeroDePagina = numeroDePagina==null ? 0 : numeroDePagina;
     }
 
