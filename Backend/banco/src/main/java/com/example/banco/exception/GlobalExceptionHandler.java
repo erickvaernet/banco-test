@@ -2,6 +2,8 @@ package com.example.banco.exception;
 
 import org.apache.log4j.Logger;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -14,27 +16,40 @@ import java.util.Arrays;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    private static Logger logger= Logger.getLogger(GlobalExceptionHandler.class);
+    private static final Logger logger= Logger.getLogger(GlobalExceptionHandler.class);
 
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler //Manejador global en caso de que no recaiga en ninguna otra excepcion
     @ResponseBody
-    public ErrorMessage allErrors(Exception ex, HttpServletRequest req){
+    public ErrorMessage handleAllErrors(Exception ex, HttpServletRequest req){
         return logErrorMessage(req.getRequestURI(),ex.getMessage(), ex.getStackTrace());
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler({EntityNotFoundException.class})
     @ResponseBody
-    public ErrorMessage notFoundException(HttpServletRequest req,Exception ex){
+    public ErrorMessage handleNotFoundException(HttpServletRequest req,Exception ex){
         return logErrorMessage(req.getRequestURI(),ex.getMessage());
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({InvalidIdException.class})
     @ResponseBody
-    public ErrorMessage invalidIDException(HttpServletRequest req,Exception ex){
+    public ErrorMessage handleInvalidIDException(HttpServletRequest req,Exception ex){
         return logErrorMessage(req.getRequestURI(),ex.getMessage());
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ErrorMessage handleValidationExceptions(
+            HttpServletRequest req,
+            MethodArgumentNotValidException ex) {
+        StringBuilder sb= new StringBuilder("Errores de Validación: ");
+        ex.getBindingResult().getAllErrors().forEach((error) -> {
+            sb.append(((FieldError) error).getField());
+            sb.append(error.getDefaultMessage());
+        });
+        return logErrorMessage(req.getRequestURI(),sb.toString());
     }
 
     private ErrorMessage logErrorMessage(String uri, String errorMessage){
