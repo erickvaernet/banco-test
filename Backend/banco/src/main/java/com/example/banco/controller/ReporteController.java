@@ -30,7 +30,8 @@ public class ReporteController {
     ) {
 
         PaginaDTO<ClienteDTO> paginaClientes;
-        paginaClientes = reporteService.getReporteByFecha(page, size, fechaInicio, fechaFin);
-        return new ResponseEntity<>(paginaClientes, HttpStatus.OK);
+        //paginaClientes = reporteService.getReporteByFecha(page, size, fechaInicio, fechaFin);
+        //return new ResponseEntity<>(paginaClientes, HttpStatus.OK);
+        return  null;
     }
 }
