@@ -1,18 +1,15 @@
 package com.example.banco.models;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "clientes")
-public class Cliente {
-
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+public class Cliente extends Persona {
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    private String contraseña;
+    private String contrasena;
     private Boolean estado;
 
 }
