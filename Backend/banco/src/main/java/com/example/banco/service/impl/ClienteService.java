@@ -1,5 +1,6 @@
 package com.example.banco.service.impl;
 
+
 import com.example.banco.dto.ClienteDTO;
 import com.example.banco.dto.PaginaDTO;
 import com.example.banco.exception.EntityNotFoundException;
@@ -14,6 +15,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 
 @Service
@@ -30,20 +33,26 @@ public class ClienteService implements IClienteService {
     }
 
     @Override
-    public ClienteDTO createCliente(ClienteDTO clienteDTO) {
-        Cliente cliente = mapToEntity(clienteDTO);
-        //cliente.setContrasenia(clienteDTO.getContrasenia());
-
+    public ClienteDTO createCliente(ClienteDTO createClienteDTO) {
+        Cliente cliente = mapToEntity(createClienteDTO);
         Cliente newCliente = clienteRepository.save(cliente);
         return mapToDTO(newCliente);
     }
 
     @Override
-    public ClienteDTO updateCliente(ClienteDTO clienteDTO) {
-        Cliente cliente = mapToEntity(clienteDTO);
+    public ClienteDTO updateCliente(Integer id, ClienteDTO clienteDTO) {
+        if(id==null || id <= 0) throw new InvalidIdException();
+        Cliente cliente = clienteRepository.findById(id)
+                .orElseThrow(()-> new EntityNotFoundException(ClienteService.ENTITY_NOT_FOUND_MESSAGE));
+        if(clienteDTO.getIdentificacion()!=null) cliente.setIdentificacion(clienteDTO.getIdentificacion());
+        if(clienteDTO.getEstado()!=null) cliente.setEstado(clienteDTO.getEstado());
+        if(clienteDTO.getNombres()!=null) cliente.setNombres(clienteDTO.getNombres());
+        if(clienteDTO.getDireccion()!=null) cliente.setDireccion(clienteDTO.getDireccion());
+        if(clienteDTO.getTelefono()!=null) cliente.setTelefono(clienteDTO.getTelefono());
+        if(clienteDTO.getFechaNacimiento()!=null) cliente.setFechaNacimiento(clienteDTO.getFechaNacimiento());
+        if(clienteDTO.getContrasenia()!=null) cliente.setContrasenia(clienteDTO.getContrasenia());
         Cliente clienteActualizado = clienteRepository.save(cliente);
-        clienteDTO.setId(clienteActualizado.getId());
-        return clienteDTO;
+        return mapToDTO(clienteActualizado);
     }
 
     @Override
@@ -73,10 +82,14 @@ public class ClienteService implements IClienteService {
 
 
     private ClienteDTO mapToDTO(Cliente cliente) {
-        return objectMapper.convertValue(cliente, ClienteDTO.class);
+        ClienteDTO clienteDTO = objectMapper.convertValue(cliente, ClienteDTO.class);
+        Period period = Period.between(cliente.getFechaNacimiento(), LocalDate.now());
+        clienteDTO.setEdad(period.getYears());
+        return clienteDTO;
     }
-    private Cliente mapToEntity(ClienteDTO clienteDTO) {
-        return objectMapper.convertValue(clienteDTO, Cliente.class);
+
+    private Cliente mapToEntity(ClienteDTO createClienteDTO) {
+        return objectMapper.convertValue(createClienteDTO, Cliente.class);
     }
 
 }

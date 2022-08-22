@@ -1,33 +1,30 @@
 package com.example.banco.service.impl;
 
-import com.example.banco.dto.PaginaDTO;
-import com.example.banco.dto.ReporteDTO;
-import com.example.banco.repository.IMovimientoRepository;
-import com.example.banco.repository.IReporteRepository;
-import com.example.banco.service.IReporteService;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-
-@Service
 public class ReporteService  {
-/*
+
+    /*
     private final IReporteRepository reporteRepository;
     private final ObjectMapper objectMapper;
 
 
-
+    @Autowired
     public ReporteService(IReporteRepository reporteRepository, ObjectMapper objectMapper) {
         this.reporteRepository = reporteRepository;
         this.objectMapper = objectMapper;
     }
 
+
+
     @Override
-    public PaginaDTO<ReporteDTO> getReporteByFecha(Integer numeroPagina, Integer size, LocalDate fechaInicio, LocalDate fechaFin) {
-        return null;
+    public List<ReporteDTO> getReporteByClienteIdAndFecha(Integer clienteId, LocalDate fechaInicio, LocalDate fechaFin) {
+        List<IReporteProjection> listReportes = reporteRepository.getReporteByClienteIdAndFecha(clienteId,fechaInicio, fechaFin);
+        return listReportes.stream().map(this::mapToDto).collect(java.util.stream.Collectors.toList());
     }
 
- */
+    public ReporteDTO mapToDto(IReporteProjection reporteProjection) {
+        return objectMapper.convertValue(reporteProjection, ReporteDTO.class);
+    }
+     */
+
 }

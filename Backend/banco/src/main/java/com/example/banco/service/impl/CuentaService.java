@@ -35,8 +35,7 @@ public class CuentaService implements ICuentaService {
     public CuentaDTO updateCuenta(CuentaDTO cuentaDTO) {
         Cuenta cuenta = mapToEntity(cuentaDTO);
         Cuenta cuentaActualizada = cuentaRepository.save(cuenta);
-        cuentaDTO.setNumeroCuenta(cuentaActualizada.getNumeroCuenta());
-        return cuentaDTO;
+        return mapToDTO(cuentaActualizada);
     }
 
     @Override

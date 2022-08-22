@@ -18,12 +18,9 @@ public class Movimiento {
     private Double valor;
     @NotBlank(message = "El saldo no puede ser nulo o estar vacío")
     private Double saldo;
-
-    /*
     @ManyToOne()
     @JoinColumn(name = "cuenta_id", nullable = false)
     private Cuenta cuenta;
-    */
 
 
     public Movimiento() {
@@ -52,6 +49,14 @@ public class Movimiento {
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
+    }
+
+    public Cuenta getCuenta() {
+        return cuenta;
+    }
+
+    public void setCuenta(Cuenta cuenta) {
+        this.cuenta = cuenta;
     }
 
     public Double getValor() {

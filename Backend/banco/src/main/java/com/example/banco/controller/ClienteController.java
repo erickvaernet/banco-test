@@ -2,13 +2,14 @@ package com.example.banco.controller;
 
 import com.example.banco.dto.ClienteDTO;
 import com.example.banco.dto.PaginaDTO;
+import com.example.banco.dto.validationinterface.CreateCliente;
+import com.example.banco.dto.validationinterface.UpdateCliente;
 import com.example.banco.service.IClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/clientes")
@@ -25,15 +26,23 @@ public class ClienteController {
 
 
     @PostMapping
-    public ResponseEntity<ClienteDTO> create(@RequestBody ClienteDTO clientedto){
-        ClienteDTO respuestaCliente = clienteService.createCliente(clientedto);
+    public ResponseEntity<ClienteDTO> create(@RequestBody @Validated(CreateCliente.class) ClienteDTO createClienteDTO){
+        ClienteDTO respuestaCliente = clienteService.createCliente(createClienteDTO);
         return new ResponseEntity<>(respuestaCliente, HttpStatus.OK);
     }
 
 
-    @PutMapping
-    public ResponseEntity<ClienteDTO> update(@RequestBody ClienteDTO clienteDTO){
-        ClienteDTO newClienteDTO = clienteService.updateCliente(clienteDTO);
+    @PutMapping("/{id}")
+    public ResponseEntity<ClienteDTO> update(@PathVariable("id") Integer id ,
+                                             @RequestBody @Validated(UpdateCliente.class) ClienteDTO updateClienteDTO){
+        ClienteDTO newClienteDTO = clienteService.updateCliente(id, updateClienteDTO);
+        return new ResponseEntity<>(newClienteDTO, HttpStatus.OK);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<ClienteDTO> updateOneField(@PathVariable("id") Integer id ,
+                                             @RequestBody @Validated(UpdateCliente.class) ClienteDTO updateClienteDTO){
+        ClienteDTO newClienteDTO = clienteService.updateCliente(id, updateClienteDTO);
         return new ResponseEntity<>(newClienteDTO, HttpStatus.OK);
     }
 
@@ -47,14 +56,10 @@ public class ClienteController {
     @GetMapping
     public ResponseEntity<PaginaDTO<ClienteDTO>> findAll(
             @RequestParam(value = "pagina", required = false)Integer numeroPagina,
-            @RequestParam(value = "tamanio", required = false)Integer tamanioPagina,
-            HttpServletRequest request
+            @RequestParam(value = "tamanio", required = false)Integer tamanioPagina
     ) {
-
         PaginaDTO<ClienteDTO> paginaClientes;
         paginaClientes = clienteService.findAllClientes(numeroPagina, tamanioPagina);
-
-        String url= request.getRequestURL().toString();
         return new ResponseEntity<>(paginaClientes, HttpStatus.OK);
     }
 }

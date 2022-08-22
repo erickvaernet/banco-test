@@ -8,9 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
-
 @RestController
 @RequestMapping("/movimientos")
 public class MovimientoController {
@@ -19,21 +16,21 @@ public class MovimientoController {
 
     @GetMapping("/{id}")
     public ResponseEntity<MovimientoDTO> findById(@PathVariable("id")Integer id){
-        MovimientoDTO movimientobuscada = movimientoService.findMovimientoById(id);
-        return new ResponseEntity<>(movimientobuscada, HttpStatus.OK);
+        MovimientoDTO movimientoDTO = movimientoService.findMovimientoById(id);
+        return new ResponseEntity<>(movimientoDTO, HttpStatus.OK);
     }
 
 
     @PostMapping
-    public ResponseEntity<MovimientoDTO> create(@RequestBody MovimientoDTO movimientodto){
-        MovimientoDTO respuestaMovimiento = movimientoService.createMovimiento(movimientodto);
+    public ResponseEntity<MovimientoDTO> create(@RequestBody MovimientoDTO createMovimientoDTO){
+        MovimientoDTO respuestaMovimiento = movimientoService.createMovimiento(createMovimientoDTO);
         return new ResponseEntity<>(respuestaMovimiento, HttpStatus.OK);
     }
 
 
     @PutMapping
-    public ResponseEntity<MovimientoDTO> update(@RequestBody MovimientoDTO movimientoDTO){
-        MovimientoDTO newMovimientoDTO = movimientoService.updateMovimiento(movimientoDTO);
+    public ResponseEntity<MovimientoDTO> update(@RequestBody MovimientoDTO updateMovimientoDTO){
+        MovimientoDTO newMovimientoDTO = movimientoService.updateMovimiento(updateMovimientoDTO);
         return new ResponseEntity<>(newMovimientoDTO, HttpStatus.OK);
     }
 
@@ -47,14 +44,10 @@ public class MovimientoController {
     @GetMapping
     public ResponseEntity<PaginaDTO<MovimientoDTO>> findAll(
             @RequestParam(value = "pagina", required = false)Integer numeroPagina,
-            @RequestParam(value = "tamanio", required = false)Integer tamanioPagina,
-            HttpServletRequest request
+            @RequestParam(value = "tamanio", required = false)Integer tamanioPagina
     ) {
-
         PaginaDTO<MovimientoDTO> paginaMovimientos;
         paginaMovimientos = movimientoService.findAllMovimientos(numeroPagina, tamanioPagina);
-
-        String url= request.getRequestURL().toString();
         return new ResponseEntity<>(paginaMovimientos, HttpStatus.OK);
     }
 

@@ -1,30 +1,53 @@
 package com.example.banco.model;
 
-
+import com.example.banco.dto.validationinterface.CreateCliente;
+import com.example.banco.dto.validationinterface.UpdateCliente;
+import com.example.banco.model.enums.GenerosEnum;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "personas")
-@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+@Inheritance(strategy=InheritanceType.JOINED)
 public class Persona {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @NotBlank(message = "El nombre no puede ser nulo o estar vacío")
+    @NotBlank(message = "EL nombre no puede ser nulo o estar vacío" ,groups = {CreateCliente.class})
+    @Length(min = 1, max = 255, message = "El Nombre debe tener entre 1 y 250 caracteres", groups = {CreateCliente.class, UpdateCliente.class})
     private String nombres;
-    @NotBlank(message = "El genero no puede ser nulo o estar vacío")
-    private String genero;
-    @NotNull(message = "La edad no puede ser nula o estar vacía")
-    private Integer edad;
-    @NotBlank(message = "La dirección no puede ser nula o estar vacía")
+    @NotBlank(message = "La identificacion no puede ser nula o estar vacía")
+    @Length(min = 1, max = 255, message = "La identificacion debe tener entre 1 y 250 caracteres")
+    private String identificacion;
+    @Enumerated(EnumType.STRING)
+    @Column(name="genero")
+    private GenerosEnum genero;
+    @NotNull(message = "La fecha de nacimiento ser nula o estar vacía",groups = {CreateCliente.class})
+    @Past(message = "La fecha de nacimiento no puede ser mayor a la fecha actual", groups = {CreateCliente.class, UpdateCliente.class})
+    @Column(name = "fecha_nacimiento")
+    private LocalDate fechaNacimiento;
+    @NotBlank(message = "La dirección no puede ser nula o estar vacía",groups = {CreateCliente.class})
+    @Length(min = 1, max = 255, message = "El Nombre debe tener entre 1 y 250 caracteres", groups = {CreateCliente.class, UpdateCliente.class})
     private String direccion;
+    @NotBlank(message = "El telefono no puede ser nulo o estar vacío",groups = {CreateCliente.class})
+    @Length(min = 3, max = 255, message = "El Telefono debe tener entre 3 y 250 caracteres", groups = {CreateCliente.class, UpdateCliente.class})
     private String telefono;
 
     public Persona() {
         //No-args constructor
+    }
+
+    public String getIdentificacion() {
+        return identificacion;
+    }
+
+    public void setIdentificacion(String identificacion) {
+        this.identificacion = identificacion;
     }
 
     public Integer getId() {
@@ -43,20 +66,20 @@ public class Persona {
         this.nombres = nombres;
     }
 
-    public String getGenero() {
+    public GenerosEnum getGenero() {
         return genero;
     }
 
-    public void setGenero(String genero) {
+    public void setGenero(GenerosEnum genero) {
         this.genero = genero;
     }
 
-    public Integer getEdad() {
-        return edad;
+    public LocalDate getFechaNacimiento() {
+        return fechaNacimiento;
     }
 
-    public void setEdad(Integer edad) {
-        this.edad = edad;
+    public void setFechaNacimiento(LocalDate fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
     }
 
     public String getDireccion() {

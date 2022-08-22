@@ -1,17 +1,13 @@
 package com.example.banco.controller;
 
-import com.example.banco.dto.ClienteDTO;
-import com.example.banco.dto.PaginaDTO;
-import com.example.banco.service.IReporteService;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 @RestController
 @RequestMapping("/reportes")
 public class ReporteController {
 
+    /*
+    @Autowired
     private IReporteService reporteService;
 
     @GetMapping
@@ -27,4 +23,6 @@ public class ReporteController {
         //return new ResponseEntity<>(paginaClientes, HttpStatus.OK);
         return  null;
     }
+
+     */
 }

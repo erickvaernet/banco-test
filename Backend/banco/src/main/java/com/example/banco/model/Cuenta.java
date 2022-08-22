@@ -1,7 +1,10 @@
 package com.example.banco.model;
 
+import com.example.banco.model.enums.TipoCuentasEnum;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "cuentas")
@@ -10,12 +13,18 @@ public class Cuenta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer numeroCuenta;
-    @NotBlank(message = "El tipo de cuenta no puede ser nulo o estar vacío")
-    private String tipo;
+    @Enumerated(EnumType.STRING)
+    private TipoCuentasEnum tipo;
     @Column(name = "saldo_inicial")
-    @NotBlank(message = "El saldo inicial no puede ser nulo o estar vacío")
+    @NotNull(message = "El saldo inicial no puede ser nulo o estar vacío")
     private Double saldoInicial;
+    @NotBlank(message = "El estado no puede ser nulo o estar vacío")
     private String estado;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cliente_id", nullable = false)
+    private Cliente cliente;
+
 
     public Cuenta() {
         //No-args constructor
@@ -29,12 +38,20 @@ public class Cuenta {
         this.numeroCuenta = numeroCuenta;
     }
 
-    public String getTipo() {
+    public TipoCuentasEnum getTipo() {
         return tipo;
     }
 
-    public void setTipo(String tipo) {
+    public void setTipo(TipoCuentasEnum tipo) {
         this.tipo = tipo;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
     }
 
     public Double getSaldoInicial() {

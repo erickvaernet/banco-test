@@ -8,6 +8,7 @@ import com.example.banco.model.Movimiento;
 import com.example.banco.repository.IMovimientoRepository;
 import com.example.banco.service.IMovimientoService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,24 +18,24 @@ public class MovimientoService implements IMovimientoService {
     private final IMovimientoRepository movimientoRepository;
     private final ObjectMapper objectMapper;
 
+    @Autowired
     public MovimientoService(IMovimientoRepository movimientoRepository, ObjectMapper objectMapper) {
         this.movimientoRepository = movimientoRepository;
         this.objectMapper = objectMapper;
     }
 
     @Override
-    public MovimientoDTO createMovimiento(MovimientoDTO movimientoDTO) {
-        Movimiento movimiento = mapToEntity(movimientoDTO);
+    public MovimientoDTO createMovimiento(MovimientoDTO createMovimientoDTO) {
+        Movimiento movimiento = mapToEntity(createMovimientoDTO);
         Movimiento newMovimiento = movimientoRepository.save(movimiento);
         return mapToDTO(newMovimiento);
     }
 
     @Override
-    public MovimientoDTO updateMovimiento(MovimientoDTO movimientoDTO) {
-        Movimiento movimiento = mapToEntity(movimientoDTO);
-        Movimiento movimientoActualizada = movimientoRepository.save(movimiento);
-        movimientoDTO.setId(movimientoActualizada.getId());
-        return movimientoDTO;
+    public MovimientoDTO updateMovimiento(MovimientoDTO updateMovimientoDTO) {
+        Movimiento movimiento = mapToEntity(updateMovimientoDTO);
+        Movimiento movimientoActualizado = movimientoRepository.save(movimiento);
+        return mapToDTO(movimientoActualizado);
     }
 
     @Override

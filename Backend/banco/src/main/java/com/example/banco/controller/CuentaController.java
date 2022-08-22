@@ -8,8 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
-
 @RestController
 @RequestMapping("/cuentas")
 public class CuentaController {
@@ -25,15 +23,15 @@ public class CuentaController {
 
 
     @PostMapping
-    public ResponseEntity<CuentaDTO> create(@RequestBody CuentaDTO cuentadto){
-        CuentaDTO respuestaCuenta = cuentaService.createCuenta(cuentadto);
+    public ResponseEntity<CuentaDTO> create(@RequestBody CuentaDTO createCuentaDTO){
+        CuentaDTO respuestaCuenta = cuentaService.createCuenta(createCuentaDTO);
         return new ResponseEntity<>(respuestaCuenta, HttpStatus.OK);
     }
 
 
     @PutMapping
-    public ResponseEntity<CuentaDTO> update(@RequestBody CuentaDTO cuentaDTO){
-        CuentaDTO newCuentaDTO = cuentaService.updateCuenta(cuentaDTO);
+    public ResponseEntity<CuentaDTO> update(@RequestBody CuentaDTO updateCuentaDTO){
+        CuentaDTO newCuentaDTO = cuentaService.updateCuenta(updateCuentaDTO);
         return new ResponseEntity<>(newCuentaDTO, HttpStatus.OK);
     }
 
@@ -47,14 +45,10 @@ public class CuentaController {
     @GetMapping
     public ResponseEntity<PaginaDTO<CuentaDTO>> findAll(
             @RequestParam(value = "pagina", required = false)Integer numeroPagina,
-            @RequestParam(value = "tamanio", required = false)Integer tamanioPagina,
-            HttpServletRequest request
+            @RequestParam(value = "tamanio", required = false)Integer tamanioPagina
     ) {
-
         PaginaDTO<CuentaDTO> paginaCuentas;
         paginaCuentas = cuentaService.findAllCuentas(numeroPagina, tamanioPagina);
-
-        String url= request.getRequestURL().toString();
         return new ResponseEntity<>(paginaCuentas, HttpStatus.OK);
     }
 }
