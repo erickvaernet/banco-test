@@ -1,6 +1,7 @@
 package com.example.banco.dto;
 
 import com.example.banco.dto.validationinterface.*;
+import com.example.banco.exception.ClientIllegalArgumentException;
 import com.example.banco.model.Cliente;
 import com.example.banco.model.enums.TipoCuentasEnum;
 
@@ -8,10 +9,9 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 
 public class CuentaDTO {
-   private Integer numeroCuenta;
+    private Integer numeroCuenta;
     private TipoCuentasEnum tipo;
-    private Double saldoInicial;
-
+    private Double saldo;
     private Boolean estado;
     private Cliente cliente;
 
@@ -25,8 +25,8 @@ public class CuentaDTO {
 
     @NotNull(message = "El saldo inicial no puede ser nulo o estar vacío",groups = {CreateCuenta.class})
     //@DecimalMin(value = "0.00", message = "El saldo inical no puede ser menor que 0",groups = {CreateCuenta.class})
-    public Double getSaldoInicial() {
-        return saldoInicial;
+    public Double getSaldo() {
+        return saldo;
     }
     @NotNull(message = "El estado no puede ser nulo",groups = {CreateCuenta.class})
     public Boolean getEstado() {
@@ -49,7 +49,7 @@ public class CuentaDTO {
             this.tipo = TipoCuentasEnum.CORRIENTE;
         }
         else {
-            throw new IllegalArgumentException("El tipo de cuenta no es válido");
+            throw new ClientIllegalArgumentException("El tipo de cuenta no es válido");
         }
     }
 
@@ -57,8 +57,8 @@ public class CuentaDTO {
         this.numeroCuenta = numeroCuenta;
     }
 
-    public void setSaldoInicial(Double saldoInicial) {
-        this.saldoInicial = saldoInicial;
+    public void setSaldo(Double saldo) {
+        this.saldo = saldo;
     }
 
     public void setEstado(Boolean estado) {

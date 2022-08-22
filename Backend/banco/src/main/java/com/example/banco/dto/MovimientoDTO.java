@@ -2,10 +2,10 @@ package com.example.banco.dto;
 
 import com.example.banco.dto.validationinterface.CreateMovimiento;
 import com.example.banco.dto.validationinterface.UpdateMovimiento;
+import com.example.banco.exception.ClientIllegalArgumentException;
 import com.example.banco.model.Cuenta;
-import org.hibernate.validator.constraints.Length;
+import com.example.banco.model.enums.TIpoMovimientoEnum;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 import java.time.LocalDate;
@@ -13,39 +13,48 @@ import java.time.LocalDate;
 public class MovimientoDTO {
     private Integer id;
     private LocalDate fecha;
-    private String tipo;
+    private TIpoMovimientoEnum tipo;
     private Double valor;
-    private Double saldo;
+    private Double saldoInicial;
     private Cuenta cuenta;
+    private Double saldoDisponible;
 
-    public MovimientoDTO(Integer id, LocalDate fecha, String tipo, Double valor, Double saldo) {
+    public MovimientoDTO() {
+        //No-args constructor
+    }
+
+    public MovimientoDTO(Integer id, LocalDate fecha, TIpoMovimientoEnum tipo, Double valor, Double saldoInicial, Cuenta cuenta) {
         this.id = id;
         this.fecha = fecha;
         this.tipo = tipo;
         this.valor = valor;
-        this.saldo = saldo;
+        this.saldoInicial = saldoInicial;
+        this.cuenta = cuenta;
     }
 
     @Null(message = "No esta permitido ingresar un id" ,groups = {CreateMovimiento.class, UpdateMovimiento.class})
     public Integer getId() {
         return id;
     }
+
     @NotNull(message = "La fecha no puede ser nula", groups = {CreateMovimiento.class})
     public LocalDate getFecha() {
         return fecha;
     }
-    @NotBlank(message = "El tipo de movimiento no puede ser nulo o estar vacío", groups = {CreateMovimiento.class})
-    @Length(min = 6, max = 255, message = "EL tipo de movimiento debe tener entre 6 y 255 caracteres", groups = {CreateMovimiento.class, UpdateMovimiento.class})
-    public String getTipo() {
+
+    @NotNull(message = "El tipo de movimiento no puede ser nulo", groups = {CreateMovimiento.class})
+    public TIpoMovimientoEnum getTipo() {
         return tipo;
     }
+
     @NotNull(message = "El valor no puede ser nulo ", groups = {CreateMovimiento.class})
     public Double getValor() {
         return valor;
     }
-    @NotNull(message = "El saldo no puede ser nulo", groups = {CreateMovimiento.class})
-    public Double getSaldo() {
-        return saldo;
+
+    @Null(message = "El saldo inicial no se puede setear al crear el movimiento", groups = {CreateMovimiento.class})
+    public Double getSaldoInicial() {
+        return saldoInicial;
     }
 
     @NotNull(message = "La cuenta no puede ser nula",groups = {CreateMovimiento.class})
@@ -62,15 +71,30 @@ public class MovimientoDTO {
     }
 
     public void setTipo(String tipo) {
-        this.tipo = tipo;
+        if("retiro".equalsIgnoreCase(tipo)){
+            this.tipo = TIpoMovimientoEnum.RETIRO;
+        }else if("deposito".equalsIgnoreCase(tipo)){
+            this.tipo = TIpoMovimientoEnum.DEPOSITO;
+        }
+        else {
+            throw new ClientIllegalArgumentException("El tipo de movimiento no es válido");
+        }
+    }
+    @Null(message = "El saldo disponible no se puede setear al crear el movimiento", groups = {CreateMovimiento.class})
+    public Double getSaldoDisponible() {
+        return saldoDisponible;
+    }
+
+    public void setSaldoDisponible(Double saldoDisponible) {
+        this.saldoDisponible = saldoDisponible;
     }
 
     public void setValor(Double valor) {
         this.valor = valor;
     }
 
-    public void setSaldo(Double saldo) {
-        this.saldo = saldo;
+    public void setSaldoInicial(Double saldoInicial) {
+        this.saldoInicial = saldoInicial;
     }
 
     public void setCuenta(Cuenta cuenta) {

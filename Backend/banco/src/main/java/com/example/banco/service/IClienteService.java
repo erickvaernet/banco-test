@@ -5,8 +5,14 @@ import com.example.banco.dto.PaginaDTO;
 
 public interface IClienteService {
     ClienteDTO createCliente(ClienteDTO createClienteDTO);
-    ClienteDTO updateCliente(Integer id, ClienteDTO updateClienteDTO);
+
+    ClienteDTO updateClientePATCH(Integer id, ClienteDTO updateClienteDTO);
+
+    ClienteDTO updateClientePUT(Integer id, ClienteDTO clienteDTO);
+
     ClienteDTO findClienteById(Integer id);
+
     void deleteClienteById(Integer id);
+
     PaginaDTO<ClienteDTO> findAllClientes(Integer numeroPagina, Integer tamanioPagina);
 }

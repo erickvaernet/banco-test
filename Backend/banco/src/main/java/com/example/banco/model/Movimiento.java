@@ -1,10 +1,9 @@
 package com.example.banco.model;
 
+import com.example.banco.model.enums.TIpoMovimientoEnum;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
 @Entity
@@ -14,17 +13,20 @@ public class Movimiento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @NotNull(message = "La fecha no puede ser nula o estar vacía")
+    @Column(name = "fecha", nullable = false)
     private LocalDate fecha;
-    @NotBlank(message = "El tipo de movimiento no puede ser nulo o estar vacío")
-    private String tipo;
-    @NotNull(message = "El valor no puede ser nulo ")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "tipo", nullable = false)
+    private TIpoMovimientoEnum tipo;
+    @Column(name = "valor", nullable = false)
     private Double valor;
-    @NotNull(message = "El saldo no puede ser nulo")
-    private Double saldo;
+    @Column(name = "saldo_inicial", nullable = false)
+    private Double saldoInicial;
     @ManyToOne()
     @JoinColumn(name = "cuenta_id", nullable = false)
     private Cuenta cuenta;
+    @Column(name = "saldo_disponible", nullable = false)
+    private Double saldoDisponible;
 
 
     public Movimiento() {
@@ -47,11 +49,11 @@ public class Movimiento {
         this.fecha = fecha;
     }
 
-    public String getTipo() {
+    public TIpoMovimientoEnum getTipo() {
         return tipo;
     }
 
-    public void setTipo(String tipo) {
+    public void setTipo(TIpoMovimientoEnum tipo) {
         this.tipo = tipo;
     }
 
@@ -71,11 +73,19 @@ public class Movimiento {
         this.valor = valor;
     }
 
-    public Double getSaldo() {
-        return saldo;
+    public Double getSaldoInicial() {
+        return saldoInicial;
     }
 
-    public void setSaldo(Double saldo) {
-        this.saldo = saldo;
+    public void setSaldoInicial(Double saldoInicial) {
+        this.saldoInicial = saldoInicial;
+    }
+
+    public Double getSaldoDisponible() {
+        return saldoDisponible;
+    }
+
+    public void setSaldoDisponible(Double saldoDisponible) {
+        this.saldoDisponible = saldoDisponible;
     }
 }

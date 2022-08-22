@@ -36,7 +36,7 @@ public class MovimientoController {
     public ResponseEntity<MovimientoDTO> updatePut(@PathVariable("id") Integer id,
                                                    @RequestBody @Validated(UpdateMovimiento.class)
                                                     MovimientoDTO updateMovimientoDTO){
-        MovimientoDTO newMovimientoDTO = movimientoService.updateMovimiento(id,updateMovimientoDTO);
+        MovimientoDTO newMovimientoDTO = movimientoService.updateMovimientoPUT(id,updateMovimientoDTO);
         return new ResponseEntity<>(newMovimientoDTO, HttpStatus.OK);
     }
 
@@ -44,7 +44,7 @@ public class MovimientoController {
     public ResponseEntity<MovimientoDTO> updatePatch(@PathVariable("id") Integer id,
                                                      @RequestBody @Validated(UpdateMovimiento.class)
                                                 MovimientoDTO updateMovimientoDTO){
-        MovimientoDTO newMovimientoDTO = movimientoService.updateMovimiento(id,updateMovimientoDTO);
+        MovimientoDTO newMovimientoDTO = movimientoService.updateMovimientoPATCH(id,updateMovimientoDTO);
         return new ResponseEntity<>(newMovimientoDTO, HttpStatus.OK);
     }
 

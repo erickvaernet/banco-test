@@ -40,7 +40,18 @@ public class ClienteService implements IClienteService {
     }
 
     @Override
-    public ClienteDTO updateCliente(Integer id, ClienteDTO clienteDTO) {
+    public ClienteDTO updateClientePUT(Integer id, ClienteDTO clienteDTO) {
+        if(id==null || id <= 0) throw new InvalidIdException();
+        clienteRepository.findById(id)
+                .orElseThrow(()-> new EntityNotFoundException(ClienteService.ENTITY_NOT_FOUND_MESSAGE));
+        Cliente cliente = mapToEntity(clienteDTO);
+        clienteRepository.save(cliente);
+        clienteDTO.setId(id);
+        return clienteDTO;
+    }
+
+    @Override
+    public ClienteDTO updateClientePATCH(Integer id, ClienteDTO clienteDTO) {
         if(id==null || id <= 0) throw new InvalidIdException();
         Cliente cliente = clienteRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException(ClienteService.ENTITY_NOT_FOUND_MESSAGE));
@@ -81,6 +92,7 @@ public class ClienteService implements IClienteService {
         long cantidad  = paginaClientes.getTotalElements();
         return new PaginaDTO<>(numeroPagina , tamanioPagina , cantidad, listaClientesDTO);
     }
+
 
 
     private ClienteDTO mapToDTO(Cliente cliente) {

@@ -18,7 +18,7 @@ public class Cuenta {
     private TipoCuentasEnum tipo;
     @Column(name = "saldo_inicial")
     @NotNull(message = "El saldo inicial no puede ser nulo o estar vacío")
-    private Double saldoInicial;
+    private Double saldo;
     @NotNull(message = "El estado no puede ser nulo")
     private Boolean estado;
 
@@ -55,12 +55,12 @@ public class Cuenta {
         this.cliente = cliente;
     }
 
-    public Double getSaldoInicial() {
-        return saldoInicial;
+    public Double getSaldo() {
+        return saldo;
     }
 
-    public void setSaldoInicial(Double saldoInicial) {
-        this.saldoInicial = saldoInicial;
+    public void setSaldo(Double saldo) {
+        this.saldo = saldo;
     }
 
     public Boolean getEstado() {

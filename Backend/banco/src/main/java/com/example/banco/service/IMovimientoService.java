@@ -5,8 +5,14 @@ import com.example.banco.dto.PaginaDTO;
 
 public interface IMovimientoService {
     MovimientoDTO createMovimiento(MovimientoDTO createMovimientoDTO);
-    MovimientoDTO updateMovimiento(Integer id,MovimientoDTO updateMovimientoDTO);
+
+    MovimientoDTO updateMovimientoPUT(Integer id,MovimientoDTO updateMovimientoDTO);
+
+    MovimientoDTO updateMovimientoPATCH(Integer id,MovimientoDTO updateMovimientoDTO);
+
     MovimientoDTO findMovimientoById(Integer id);
+
     void deleteMovimientoById(Integer id);
+
     PaginaDTO<MovimientoDTO> findAllMovimientos(Integer numeroPagina, Integer tamanioPagina);
 }

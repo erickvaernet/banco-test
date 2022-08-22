@@ -38,13 +38,13 @@ public class CuentaService implements ICuentaService {
     }
 
     @Override
-    public CuentaDTO updateCuenta(Integer numeroCuenta,CuentaDTO cuentaDTO) {
+    public CuentaDTO updateCuentaPatch(Integer numeroCuenta,CuentaDTO cuentaDTO) {
         if(numeroCuenta==null || numeroCuenta <= 0) throw new InvalidIdException();
         Cuenta cuenta = cuentaRepository.findById(numeroCuenta)
                 .orElseThrow(()-> new EntityNotFoundException(CuentaService.ENTITY_NOT_FOUND_MESSAGE));
         //Puede reemplazarse usando reflection pero genera menor performance
         if(cuentaDTO.getCliente() != null) cuenta.setCliente(cuentaDTO.getCliente());
-        if(cuentaDTO.getSaldoInicial() != null) cuenta.setSaldoInicial(cuentaDTO.getSaldoInicial());
+        if(cuentaDTO.getSaldo() != null) cuenta.setSaldo(cuentaDTO.getSaldo());
         if(cuentaDTO.getTipo()!= null) cuenta.setTipo(cuentaDTO.getTipo());
         if (cuentaDTO.getEstado() != null) cuenta.setEstado(cuentaDTO.getEstado());
         Cuenta cuentaActualizada = cuentaRepository.save(cuenta);
@@ -52,10 +52,20 @@ public class CuentaService implements ICuentaService {
     }
 
     @Override
+    public CuentaDTO updateCuentaPut(Integer numeroCuenta,CuentaDTO cuentaDTO) {
+        if(numeroCuenta==null || numeroCuenta <= 0) throw new InvalidIdException();
+        cuentaRepository.findById(numeroCuenta)
+                .orElseThrow(()-> new EntityNotFoundException(ENTITY_NOT_FOUND_MESSAGE));
+        cuentaRepository.save(mapToEntity(cuentaDTO));
+        cuentaDTO.setNumeroCuenta(numeroCuenta);
+        return cuentaDTO;
+    }
+
+    @Override
     public CuentaDTO findCuentaById(Integer id) {
         if(id==null || id <= 0) throw new InvalidIdException();
         Optional<Cuenta> cuenta = cuentaRepository.findById(id);
-        if(!cuenta.isPresent()) throw new EntityNotFoundException(CuentaService.ENTITY_NOT_FOUND_MESSAGE);
+        if(cuenta.isEmpty()) throw new EntityNotFoundException(CuentaService.ENTITY_NOT_FOUND_MESSAGE);
                 //.orElseThrow(()-> new EntityNotFoundException(CuentaService.ENTITY_NOT_FOUND_MESSAGE));
         return mapToDTO(cuenta.get());
     }

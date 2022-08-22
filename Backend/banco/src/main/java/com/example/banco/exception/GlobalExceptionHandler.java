@@ -31,7 +31,7 @@ public class GlobalExceptionHandler {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler({InvalidIdException.class})
+    @ExceptionHandler({InvalidIdException.class,ClientIllegalArgumentException.class})
     @ResponseBody
     public ErrorMessage handleInvalidIDException(HttpServletRequest req,Exception ex){
         return createErrorMessage(req.getRequestURI(),ex.getMessage());
@@ -54,6 +54,8 @@ public class GlobalExceptionHandler {
         sb.deleteCharAt(sb.length()-1);
         return createErrorMessage(req.getRequestURI(),sb.toString());
     }
+
+
 
     private ErrorMessage createErrorMessage(String uri, String errorMessage){
         logger.error("Error en la URI: "+uri+" Error: "+errorMessage);

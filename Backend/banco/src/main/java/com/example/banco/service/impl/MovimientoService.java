@@ -1,11 +1,16 @@
 package com.example.banco.service.impl;
 
+import com.example.banco.dto.CuentaDTO;
 import com.example.banco.dto.MovimientoDTO;
 import com.example.banco.dto.PaginaDTO;
+import com.example.banco.exception.ClientIllegalArgumentException;
 import com.example.banco.exception.EntityNotFoundException;
 import com.example.banco.exception.InvalidIdException;
 import com.example.banco.model.Movimiento;
+import com.example.banco.model.enums.TIpoMovimientoEnum;
+import com.example.banco.model.enums.TipoCuentasEnum;
 import com.example.banco.repository.IMovimientoRepository;
+import com.example.banco.service.ICuentaService;
 import com.example.banco.service.IMovimientoService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,32 +26,74 @@ public class MovimientoService implements IMovimientoService {
 
     public static final String ENTITY_NOT_FOUND_MESSAGE  = "No se encontro el movimiento con el id indicado";
     private final IMovimientoRepository movimientoRepository;
+    private final ICuentaService cuentaService;
     private final ObjectMapper objectMapper;
 
     @Autowired
-    public MovimientoService(IMovimientoRepository movimientoRepository, ObjectMapper objectMapper) {
+    public MovimientoService(IMovimientoRepository movimientoRepository, ICuentaService cuentaService, ObjectMapper objectMapper) {
         this.movimientoRepository = movimientoRepository;
+        this.cuentaService = cuentaService;
         this.objectMapper = objectMapper;
     }
 
     @Override
     public MovimientoDTO createMovimiento(MovimientoDTO createMovimientoDTO) {
+        CuentaDTO cuenta = cuentaService.findCuentaById(createMovimientoDTO.getCuenta().getNumeroCuenta());
+        createMovimientoDTO.setSaldoInicial(cuenta.getSaldo());
+        if(createMovimientoDTO.getTipo().equals(TIpoMovimientoEnum.DEPOSITO))
+            cuenta.setSaldo(cuenta.getSaldo() + createMovimientoDTO.getValor());
+        else if(createMovimientoDTO.getTipo().equals(TIpoMovimientoEnum.RETIRO)){
+            controlarSaldoDisponible(createMovimientoDTO,cuenta);
+            cuenta.setSaldo(cuenta.getSaldo() - createMovimientoDTO.getValor());
+        }
+        cuentaService.updateCuentaPatch(cuenta.getNumeroCuenta(),cuenta);
+        createMovimientoDTO.setSaldoDisponible(cuenta.getSaldo());
         Movimiento movimiento = mapToEntity(createMovimientoDTO);
         Movimiento newMovimiento = movimientoRepository.save(movimiento);
         return mapToDTO(newMovimiento);
     }
 
+
     @Override
-    public MovimientoDTO updateMovimiento(Integer id,MovimientoDTO updateMovimientoDTO) {
+    public MovimientoDTO updateMovimientoPUT(Integer id,MovimientoDTO updateMovimientoDTO) {
+        if(id==null || id <= 0) throw new InvalidIdException();
+        Movimiento movimientoAnterior = movimientoRepository.findById(id)
+                .orElseThrow(()-> new EntityNotFoundException(ENTITY_NOT_FOUND_MESSAGE));
+
+        //cambiar saldos en cuentas del movimiento que sera reemplazado
+        CuentaDTO cuentaAnterior = cuentaService.findCuentaById(movimientoAnterior.getCuenta().getNumeroCuenta());
+        if(movimientoAnterior.getTipo().equals(TIpoMovimientoEnum.DEPOSITO)){
+            cuentaAnterior.setSaldo(cuentaAnterior.getSaldo() - movimientoAnterior.getValor());
+        }
+        else if (movimientoAnterior.getTipo().equals(TIpoMovimientoEnum.RETIRO)){
+            cuentaAnterior.setSaldo(cuentaAnterior.getSaldo() + movimientoAnterior.getValor());
+        }
+        cuentaService.updateCuentaPatch(cuentaAnterior.getNumeroCuenta(),cuentaAnterior);
+
+        //cambiar saldos en cuentas del movimiento que sera actualizado
+        return createMovimiento(updateMovimientoDTO);
+    }
+
+
+        @Override
+    public MovimientoDTO updateMovimientoPATCH(Integer id,MovimientoDTO updateMovimientoDTO) {
         if(id==null || id <= 0) throw new InvalidIdException();
         Movimiento movimiento = movimientoRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException(MovimientoService.ENTITY_NOT_FOUND_MESSAGE));
-        //Puede reemplazarse usando reflection pero genera menor performance
+        CuentaDTO cuenta = cuentaService.findCuentaById(updateMovimientoDTO.getCuenta().getNumeroCuenta());
         if(updateMovimientoDTO.getCuenta()!=null) movimiento.setCuenta(updateMovimientoDTO.getCuenta());
         if (updateMovimientoDTO.getFecha()!=null) movimiento.setFecha(updateMovimientoDTO.getFecha());
-        if (updateMovimientoDTO.getValor()!=null) movimiento.setValor(updateMovimientoDTO.getValor());
-        if (updateMovimientoDTO.getSaldo()!=null) movimiento.setSaldo(updateMovimientoDTO.getSaldo());
+        if (updateMovimientoDTO.getSaldoInicial()!=null) movimiento.setSaldoInicial(updateMovimientoDTO.getSaldoInicial());
         if (updateMovimientoDTO.getTipo()!=null) movimiento.setTipo(updateMovimientoDTO.getTipo());
+        if (updateMovimientoDTO.getValor()!=null && !updateMovimientoDTO.getTipo().equals(movimiento.getTipo())){
+            if(updateMovimientoDTO.getTipo().equals(TIpoMovimientoEnum.DEPOSITO))
+                cuenta.setSaldo(cuenta.getSaldo() + updateMovimientoDTO.getValor() + movimiento.getValor());
+            else if(updateMovimientoDTO.getTipo().equals(TIpoMovimientoEnum.RETIRO)){
+                controlarSaldoDisponible(updateMovimientoDTO,movimiento,cuenta);
+                cuenta.setSaldo(cuenta.getSaldo() - updateMovimientoDTO.getValor() - movimiento.getValor());
+            }
+        }
+        movimiento.setSaldoDisponible(movimiento.getSaldoInicial()-movimiento.getValor());
         Movimiento movimientoActualizado = movimientoRepository.save(movimiento);
         return mapToDTO(movimientoActualizado);
     }
@@ -75,6 +122,20 @@ public class MovimientoService implements IMovimientoService {
         long cantidad  = paginaMovimientos.getTotalElements();
         return new PaginaDTO<>(numeroPagina , tamanioPagina , cantidad, listaMovimientosDTO);
     }
+
+    private void controlarSaldoDisponible(MovimientoDTO movimientoDTO,CuentaDTO cuenta){
+        if( cuenta.getTipo().equals(TipoCuentasEnum.AHORRO) &&
+                cuenta.getSaldo() < movimientoDTO.getValor()){
+            throw new ClientIllegalArgumentException("No se puede realizar el movimiento, no hay saldo suficiente");
+        }
+    }
+    private void controlarSaldoDisponible(MovimientoDTO movimientoDTO,Movimiento movimiento,CuentaDTO cuenta){
+        Double valorTotal= movimiento.getValor()+movimientoDTO.getValor();
+        if( cuenta.getTipo().equals(TipoCuentasEnum.AHORRO) &&
+                cuenta.getSaldo() < valorTotal){
+            throw new ClientIllegalArgumentException("No se puede realizar el movimiento, no hay saldo suficiente");
+        }
+    }
     
     private MovimientoDTO mapToDTO(Movimiento movimiento) {
         return objectMapper.convertValue(movimiento, MovimientoDTO.class);
@@ -82,4 +143,8 @@ public class MovimientoService implements IMovimientoService {
     private Movimiento mapToEntity(MovimientoDTO movimientoDTO) {
         return objectMapper.convertValue(movimientoDTO, Movimiento.class);
     }
+
+
+
+
 }

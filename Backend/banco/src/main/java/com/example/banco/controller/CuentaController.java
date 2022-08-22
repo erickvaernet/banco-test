@@ -35,14 +35,14 @@ public class CuentaController {
     @PutMapping("/{numeroCuenta}")
     public ResponseEntity<CuentaDTO> updatePut(@PathVariable("numeroCuenta") Integer numeroCuenta ,
                                             @RequestBody @Validated(UpdateCuenta.class) CuentaDTO updateCuentaDTO){
-        CuentaDTO newCuentaDTO = cuentaService.updateCuenta(numeroCuenta,updateCuentaDTO);
+        CuentaDTO newCuentaDTO = cuentaService.updateCuentaPut(numeroCuenta,updateCuentaDTO);
         return new ResponseEntity<>(newCuentaDTO, HttpStatus.OK);
     }
 
     @PatchMapping("/{numeroCuenta}")
     public ResponseEntity<CuentaDTO> updatePatch(@PathVariable("numeroCuenta") Integer numeroCuenta ,
                                             @RequestBody @Validated(UpdateCuenta.class) CuentaDTO updateCuentaDTO){
-        CuentaDTO newCuentaDTO = cuentaService.updateCuenta(numeroCuenta,updateCuentaDTO);
+        CuentaDTO newCuentaDTO = cuentaService.updateCuentaPatch(numeroCuenta,updateCuentaDTO);
         return new ResponseEntity<>(newCuentaDTO, HttpStatus.OK);
     }
 
