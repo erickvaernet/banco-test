@@ -1,8 +1,7 @@
 package com.example.banco.model;
 
-import com.example.banco.dto.validationinterface.CreateCliente;
-import com.example.banco.dto.validationinterface.UpdateCliente;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
@@ -12,14 +11,15 @@ import java.util.Set;
 
 @Entity
 @Table(name = "clientes")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Cliente extends Persona {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @NotBlank(message = "La contraseñia no puede ser nula o estar vacía",groups = {CreateCliente.class})
-    @Length(min = 4, max = 255, message = "La contraseña debe tener entre 4 y 255 caracteres", groups = {CreateCliente.class, UpdateCliente.class})
+    @NotBlank(message = "La contraseñia no puede ser nula o estar vacía")
+    @Length(min = 4, max = 255, message = "La contraseña debe tener entre 4 y 255 caracteres")
     private String contrasenia;
-    @NotNull(message = "El estado no puede ser nulo o estar vacío",groups = {CreateCliente.class})
+    @NotNull(message = "El estado no puede ser nulo o estar vacío")
     private Boolean estado;
 
     @OneToMany(mappedBy = "cliente", cascade = CascadeType.ALL,fetch = FetchType.LAZY)

@@ -1,11 +1,9 @@
 package com.example.banco.dto;
 
-import com.example.banco.dto.validationinterface.CreateCuenta;
+import com.example.banco.dto.validationinterface.*;
 import com.example.banco.model.Cliente;
 import com.example.banco.model.enums.TipoCuentasEnum;
 
-import javax.validation.constraints.DecimalMin;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 
@@ -13,32 +11,33 @@ public class CuentaDTO {
    private Integer numeroCuenta;
     private TipoCuentasEnum tipo;
     private Double saldoInicial;
-    private String estado;
+
+    private Boolean estado;
     private Cliente cliente;
 
     public CuentaDTO() {
         //No-args constructor
     }
-    @Null(message = "No esta permitido ingresar un id" ,groups = {CreateCuenta.class})
+    @Null(message = "No esta permitido ingresar un id" ,groups = {CreateCuenta.class, UpdateCuenta.class})
     public Integer getNumeroCuenta() {
         return numeroCuenta;
     }
 
     @NotNull(message = "El saldo inicial no puede ser nulo o estar vacío",groups = {CreateCuenta.class})
-    @DecimalMin(value = "0.00", message = "El saldo inical no puede ser menor que 0",groups = {CreateCuenta.class})
+    //@DecimalMin(value = "0.00", message = "El saldo inical no puede ser menor que 0",groups = {CreateCuenta.class})
     public Double getSaldoInicial() {
         return saldoInicial;
     }
-
-    @NotBlank(message = "El estado no puede ser nulo o estar vacío")
-    public String getEstado() {
+    @NotNull(message = "El estado no puede ser nulo",groups = {CreateCuenta.class})
+    public Boolean getEstado() {
         return estado;
     }
-
+    @NotNull(message = "El cliente no puede ser nulo",groups = {CreateCuenta.class})
     public Cliente getCliente() {
         return cliente;
     }
 
+    @NotNull(message = "El tipo de cuenta no puede ser nulo",groups = {CreateCuenta.class})
     public TipoCuentasEnum getTipo() {
         return tipo;
     }
@@ -62,7 +61,7 @@ public class CuentaDTO {
         this.saldoInicial = saldoInicial;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(Boolean estado) {
         this.estado = estado;
     }
 

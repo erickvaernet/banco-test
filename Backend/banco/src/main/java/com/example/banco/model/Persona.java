@@ -3,6 +3,7 @@ package com.example.banco.model;
 import com.example.banco.dto.validationinterface.CreateCliente;
 import com.example.banco.dto.validationinterface.UpdateCliente;
 import com.example.banco.model.enums.GenerosEnum;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.*;
@@ -14,6 +15,7 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "personas")
 @Inheritance(strategy=InheritanceType.JOINED)
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Persona {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -33,14 +33,14 @@ public class ClienteController {
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<ClienteDTO> update(@PathVariable("id") Integer id ,
+    public ResponseEntity<ClienteDTO> updatePut(@PathVariable("id") Integer id ,
                                              @RequestBody @Validated(UpdateCliente.class) ClienteDTO updateClienteDTO){
         ClienteDTO newClienteDTO = clienteService.updateCliente(id, updateClienteDTO);
         return new ResponseEntity<>(newClienteDTO, HttpStatus.OK);
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<ClienteDTO> updateOneField(@PathVariable("id") Integer id ,
+    public ResponseEntity<ClienteDTO> updatePatch(@PathVariable("id") Integer id ,
                                              @RequestBody @Validated(UpdateCliente.class) ClienteDTO updateClienteDTO){
         ClienteDTO newClienteDTO = clienteService.updateCliente(id, updateClienteDTO);
         return new ResponseEntity<>(newClienteDTO, HttpStatus.OK);

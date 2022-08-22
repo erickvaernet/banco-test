@@ -19,7 +19,8 @@ public class GlobalExceptionHandler {
     @ExceptionHandler //Manejador global en caso de que no recaiga en ninguna otra excepcion
     @ResponseBody
     public ErrorMessage handleAllErrors(Exception ex, HttpServletRequest req){
-        return createAndlogErrorMessage(req.getRequestURI(),ex.getMessage(), ex.getStackTrace());
+        return createAndlogErrorMessage(req.getRequestURI(),ex.getMessage(), ex.getStackTrace(),
+                "Error Interno del Servidor, contacte con el administrador");
     }
 
     @ResponseStatus(HttpStatus.NOT_FOUND)
@@ -43,11 +44,13 @@ public class GlobalExceptionHandler {
             MethodArgumentNotValidException ex) {
         StringBuilder sb= new StringBuilder();
         sb.append("Errores de Validación: ");
-        ex.getBindingResult().getAllErrors()
-                .forEach((error) -> sb.append(((FieldError) error).getField())
-                .append(": ")
-                .append(error.getDefaultMessage())
-                .append(", "));
+        ex.getBindingResult().getAllErrors().forEach((error) ->
+        {
+            sb.append(((FieldError) error).getField())
+            .append(": ")
+            .append(error.getDefaultMessage())
+            .append(", ");
+        });
         sb.deleteCharAt(sb.length()-1);
         return createErrorMessage(req.getRequestURI(),sb.toString());
     }
@@ -57,13 +60,13 @@ public class GlobalExceptionHandler {
         return new ErrorMessage(uri,errorMessage);
     }
 
-    private ErrorMessage createAndlogErrorMessage(String uri, String errorMessage, StackTraceElement[] stackTrace){
+    private ErrorMessage createAndlogErrorMessage(String uri, String errorMessage, StackTraceElement[] stackTrace,String messageForClient){
         StringBuilder st = new StringBuilder("Error en la URI: "+uri+" Error: "+errorMessage+" StackTrace: ");
         Arrays.stream(stackTrace).forEach(
                 (e)-> st.append(e.toString()).append("\n")
         );
         logger.error(st);
-        return new ErrorMessage(uri,errorMessage);
+        return new ErrorMessage(uri,messageForClient);
     }
 
 

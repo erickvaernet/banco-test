@@ -2,10 +2,13 @@ package com.example.banco.controller;
 
 import com.example.banco.dto.MovimientoDTO;
 import com.example.banco.dto.PaginaDTO;
+import com.example.banco.dto.validationinterface.CreateMovimiento;
+import com.example.banco.dto.validationinterface.UpdateMovimiento;
 import com.example.banco.service.IMovimientoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -22,15 +25,26 @@ public class MovimientoController {
 
 
     @PostMapping
-    public ResponseEntity<MovimientoDTO> create(@RequestBody MovimientoDTO createMovimientoDTO){
+    public ResponseEntity<MovimientoDTO> create(@RequestBody @Validated(CreateMovimiento.class)
+                                                    MovimientoDTO createMovimientoDTO){
         MovimientoDTO respuestaMovimiento = movimientoService.createMovimiento(createMovimientoDTO);
         return new ResponseEntity<>(respuestaMovimiento, HttpStatus.OK);
     }
 
 
-    @PutMapping
-    public ResponseEntity<MovimientoDTO> update(@RequestBody MovimientoDTO updateMovimientoDTO){
-        MovimientoDTO newMovimientoDTO = movimientoService.updateMovimiento(updateMovimientoDTO);
+    @PutMapping("/{id}")
+    public ResponseEntity<MovimientoDTO> updatePut(@PathVariable("id") Integer id,
+                                                   @RequestBody @Validated(UpdateMovimiento.class)
+                                                    MovimientoDTO updateMovimientoDTO){
+        MovimientoDTO newMovimientoDTO = movimientoService.updateMovimiento(id,updateMovimientoDTO);
+        return new ResponseEntity<>(newMovimientoDTO, HttpStatus.OK);
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<MovimientoDTO> updatePatch(@PathVariable("id") Integer id,
+                                                     @RequestBody @Validated(UpdateMovimiento.class)
+                                                MovimientoDTO updateMovimientoDTO){
+        MovimientoDTO newMovimientoDTO = movimientoService.updateMovimiento(id,updateMovimientoDTO);
         return new ResponseEntity<>(newMovimientoDTO, HttpStatus.OK);
     }
 

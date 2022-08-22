@@ -1,13 +1,14 @@
 package com.example.banco.model;
 
 import com.example.banco.model.enums.TipoCuentasEnum;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "cuentas")
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class Cuenta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,8 +19,8 @@ public class Cuenta {
     @Column(name = "saldo_inicial")
     @NotNull(message = "El saldo inicial no puede ser nulo o estar vacío")
     private Double saldoInicial;
-    @NotBlank(message = "El estado no puede ser nulo o estar vacío")
-    private String estado;
+    @NotNull(message = "El estado no puede ser nulo")
+    private Boolean estado;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "cliente_id", nullable = false)
@@ -62,11 +63,11 @@ public class Cuenta {
         this.saldoInicial = saldoInicial;
     }
 
-    public String getEstado() {
+    public Boolean getEstado() {
         return estado;
     }
 
-    public void setEstado(String estado) {
+    public void setEstado(Boolean estado) {
         this.estado = estado;
     }
 }

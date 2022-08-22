@@ -1,5 +1,13 @@
 package com.example.banco.dto;
 
+import com.example.banco.dto.validationinterface.CreateMovimiento;
+import com.example.banco.dto.validationinterface.UpdateMovimiento;
+import com.example.banco.model.Cuenta;
+import org.hibernate.validator.constraints.Length;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import java.time.LocalDate;
 
 public class MovimientoDTO {
@@ -8,6 +16,7 @@ public class MovimientoDTO {
     private String tipo;
     private Double valor;
     private Double saldo;
+    private Cuenta cuenta;
 
     public MovimientoDTO(Integer id, LocalDate fecha, String tipo, Double valor, Double saldo) {
         this.id = id;
@@ -17,43 +26,54 @@ public class MovimientoDTO {
         this.saldo = saldo;
     }
 
+    @Null(message = "No esta permitido ingresar un id" ,groups = {CreateMovimiento.class, UpdateMovimiento.class})
     public Integer getId() {
         return id;
+    }
+    @NotNull(message = "La fecha no puede ser nula", groups = {CreateMovimiento.class})
+    public LocalDate getFecha() {
+        return fecha;
+    }
+    @NotBlank(message = "El tipo de movimiento no puede ser nulo o estar vacío", groups = {CreateMovimiento.class})
+    @Length(min = 6, max = 255, message = "EL tipo de movimiento debe tener entre 6 y 255 caracteres", groups = {CreateMovimiento.class, UpdateMovimiento.class})
+    public String getTipo() {
+        return tipo;
+    }
+    @NotNull(message = "El valor no puede ser nulo ", groups = {CreateMovimiento.class})
+    public Double getValor() {
+        return valor;
+    }
+    @NotNull(message = "El saldo no puede ser nulo", groups = {CreateMovimiento.class})
+    public Double getSaldo() {
+        return saldo;
+    }
+
+    @NotNull(message = "La cuenta no puede ser nula",groups = {CreateMovimiento.class})
+    public Cuenta getCuenta() {
+        return cuenta;
     }
 
     public void setId(Integer id) {
         this.id = id;
     }
 
-    public LocalDate getFecha() {
-        return fecha;
-    }
-
     public void setFecha(LocalDate fecha) {
         this.fecha = fecha;
-    }
-
-    public String getTipo() {
-        return tipo;
     }
 
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
 
-    public Double getValor() {
-        return valor;
-    }
-
     public void setValor(Double valor) {
         this.valor = valor;
     }
 
-    public Double getSaldo() {
-        return saldo;
-    }
-
     public void setSaldo(Double saldo) {
         this.saldo = saldo;
+    }
+
+    public void setCuenta(Cuenta cuenta) {
+        this.cuenta = cuenta;
     }
 }

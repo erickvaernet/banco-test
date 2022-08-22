@@ -15,7 +15,6 @@ public class ClienteDTO {
     private String identificacion;
     private String nombres;
     private GenerosEnum genero;
-
     private LocalDate fechaNacimiento;
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private Integer edad;
@@ -28,7 +27,7 @@ public class ClienteDTO {
     public ClienteDTO() {
     }
 
-    @Null(message = "No esta permitido ingresar un id" ,groups = {CreateCliente.class})
+    @Null(message = "No esta permitido ingresar un id" ,groups = {CreateCliente.class,UpdateCliente.class})
     public Integer getId() {
         return id;
     }

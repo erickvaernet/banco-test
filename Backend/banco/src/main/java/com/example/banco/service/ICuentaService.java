@@ -7,8 +7,8 @@ import com.example.banco.dto.PaginaDTO;
 
 public interface ICuentaService {
     CuentaDTO createCuenta(CuentaDTO createCuentaDTO);
-    CuentaDTO updateCuenta(CuentaDTO updateCuentaDTO);
-    CuentaDTO findCuentaById(Integer id);
-    void deleteCuentaById(Integer id);
+    CuentaDTO updateCuenta(Integer numeroCuenta,CuentaDTO updateCuentaDTO);
+    CuentaDTO findCuentaById(Integer numeroCuenta);
+    void deleteCuentaById(Integer numeroCuenta);
     PaginaDTO<CuentaDTO> findAllCuentas(Integer numeroPagina, Integer tamanioPagina);
 }

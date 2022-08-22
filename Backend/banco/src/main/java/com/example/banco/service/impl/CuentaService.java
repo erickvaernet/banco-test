@@ -9,12 +9,18 @@ import com.example.banco.repository.ICuentaRepository;
 import com.example.banco.service.ICuentaService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CuentaService implements ICuentaService {
 
-    public static final String ENTITY_NOT_FOUND_MESSAGE  = "No se encontro la cuenta con el id indicado";
+    public static final String ENTITY_NOT_FOUND_MESSAGE  = "No se encontro la cuenta con el numero de cuenta indicado";
     private final ICuentaRepository cuentaRepository;
     private final ObjectMapper objectMapper;
 
@@ -32,8 +38,15 @@ public class CuentaService implements ICuentaService {
     }
 
     @Override
-    public CuentaDTO updateCuenta(CuentaDTO cuentaDTO) {
-        Cuenta cuenta = mapToEntity(cuentaDTO);
+    public CuentaDTO updateCuenta(Integer numeroCuenta,CuentaDTO cuentaDTO) {
+        if(numeroCuenta==null || numeroCuenta <= 0) throw new InvalidIdException();
+        Cuenta cuenta = cuentaRepository.findById(numeroCuenta)
+                .orElseThrow(()-> new EntityNotFoundException(CuentaService.ENTITY_NOT_FOUND_MESSAGE));
+        //Puede reemplazarse usando reflection pero genera menor performance
+        if(cuentaDTO.getCliente() != null) cuenta.setCliente(cuentaDTO.getCliente());
+        if(cuentaDTO.getSaldoInicial() != null) cuenta.setSaldoInicial(cuentaDTO.getSaldoInicial());
+        if(cuentaDTO.getTipo()!= null) cuenta.setTipo(cuentaDTO.getTipo());
+        if (cuentaDTO.getEstado() != null) cuenta.setEstado(cuentaDTO.getEstado());
         Cuenta cuentaActualizada = cuentaRepository.save(cuenta);
         return mapToDTO(cuentaActualizada);
     }
@@ -41,9 +54,10 @@ public class CuentaService implements ICuentaService {
     @Override
     public CuentaDTO findCuentaById(Integer id) {
         if(id==null || id <= 0) throw new InvalidIdException();
-        Cuenta cuenta = cuentaRepository.findById(id)
-                .orElseThrow(()-> new EntityNotFoundException(CuentaService.ENTITY_NOT_FOUND_MESSAGE));
-        return mapToDTO(cuenta);
+        Optional<Cuenta> cuenta = cuentaRepository.findById(id);
+        if(!cuenta.isPresent()) throw new EntityNotFoundException(CuentaService.ENTITY_NOT_FOUND_MESSAGE);
+                //.orElseThrow(()-> new EntityNotFoundException(CuentaService.ENTITY_NOT_FOUND_MESSAGE));
+        return mapToDTO(cuenta.get());
     }
 
     @Override
@@ -54,7 +68,13 @@ public class CuentaService implements ICuentaService {
 
     @Override
     public PaginaDTO<CuentaDTO> findAllCuentas(Integer numeroPagina, Integer tamanioPagina) {
-        return null;
+        numeroPagina = numeroPagina==null? 0 : numeroPagina;
+        tamanioPagina = tamanioPagina==null? 10 : tamanioPagina;
+        Pageable numeroPaginaRequest = PageRequest.of(numeroPagina,tamanioPagina);
+        Page<Cuenta> paginaCuentas = cuentaRepository.findAll(numeroPaginaRequest);
+        List<CuentaDTO> listaCuentasDTO = paginaCuentas.getContent().stream().map(this::mapToDTO).toList();
+        long cantidad  = paginaCuentas.getTotalElements();
+        return new PaginaDTO<>(numeroPagina , tamanioPagina , cantidad, listaCuentasDTO);
     }
 
     private CuentaDTO mapToDTO(Cuenta cuenta) {

@@ -44,6 +44,7 @@ public class ClienteService implements IClienteService {
         if(id==null || id <= 0) throw new InvalidIdException();
         Cliente cliente = clienteRepository.findById(id)
                 .orElseThrow(()-> new EntityNotFoundException(ClienteService.ENTITY_NOT_FOUND_MESSAGE));
+        //Puede reemplazarse usando reflection pero genera menor performance
         if(clienteDTO.getIdentificacion()!=null) cliente.setIdentificacion(clienteDTO.getIdentificacion());
         if(clienteDTO.getEstado()!=null) cliente.setEstado(clienteDTO.getEstado());
         if(clienteDTO.getNombres()!=null) cliente.setNombres(clienteDTO.getNombres());
@@ -51,6 +52,7 @@ public class ClienteService implements IClienteService {
         if(clienteDTO.getTelefono()!=null) cliente.setTelefono(clienteDTO.getTelefono());
         if(clienteDTO.getFechaNacimiento()!=null) cliente.setFechaNacimiento(clienteDTO.getFechaNacimiento());
         if(clienteDTO.getContrasenia()!=null) cliente.setContrasenia(clienteDTO.getContrasenia());
+        if(clienteDTO.getGenero()!=null) cliente.setGenero(clienteDTO.getGenero());
         Cliente clienteActualizado = clienteRepository.save(cliente);
         return mapToDTO(clienteActualizado);
     }
