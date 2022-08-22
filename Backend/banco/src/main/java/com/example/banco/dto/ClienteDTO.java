@@ -27,6 +27,30 @@ public class ClienteDTO {
     public ClienteDTO() {
     }
 
+    public ClienteDTO(Integer id, String identificacion, String nombres, GenerosEnum genero, LocalDate fechaNacimiento, Integer edad, String direccion, String telefono, String contrasenia, Boolean estado) {
+        this.id = id;
+        this.identificacion = identificacion;
+        this.nombres = nombres;
+        this.genero = genero;
+        this.fechaNacimiento = fechaNacimiento;
+        this.edad = edad;
+        this.direccion = direccion;
+        this.telefono = telefono;
+        this.contrasenia = contrasenia;
+        this.estado = estado;
+    }
+
+    public ClienteDTO( String identificacion, String nombres, GenerosEnum genero, LocalDate fechaNacimiento, String direccion, String telefono, String contrasenia, Boolean estado) {
+        this.identificacion = identificacion;
+        this.nombres = nombres;
+        this.genero = genero;
+        this.fechaNacimiento = fechaNacimiento;
+        this.direccion = direccion;
+        this.telefono = telefono;
+        this.contrasenia = contrasenia;
+        this.estado = estado;
+    }
+
     @Null(message = "No esta permitido ingresar un id" ,groups = {CreateCliente.class,UpdateCliente.class})
     public Integer getId() {
         return id;

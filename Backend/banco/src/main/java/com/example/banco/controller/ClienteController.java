@@ -62,5 +62,7 @@ public class ClienteController {
         paginaClientes = clienteService.findAllClientes(numeroPagina, tamanioPagina);
         return new ResponseEntity<>(paginaClientes, HttpStatus.OK);
     }
+
+
 }
 

@@ -18,6 +18,14 @@ public class CuentaDTO {
     public CuentaDTO() {
         //No-args constructor
     }
+
+    public CuentaDTO(TipoCuentasEnum tipo, Double saldo, Boolean estado, Cliente cliente) {
+        this.tipo = tipo;
+        this.saldo = saldo;
+        this.estado = estado;
+        this.cliente = cliente;
+    }
+
     @Null(message = "No esta permitido ingresar un id" ,groups = {CreateCuenta.class, UpdateCuenta.class})
     public Integer getNumeroCuenta() {
         return numeroCuenta;
