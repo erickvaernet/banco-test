@@ -1,0 +1,6 @@
+FROM maven
+COPY pom.xml /user/local/services/pom.xml
+COPY src /user/local/services/src
+WORKDIR /user/local/services
+RUN mvn package
+CMD ["java", "-cp", "banco-0.0.1-SNAPSHOT", "com.example.banco.BancoApplication.main"]
