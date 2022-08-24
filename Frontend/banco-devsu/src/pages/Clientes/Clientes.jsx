@@ -15,32 +15,11 @@ const Clientes = () => {
   
   
   useEffect(()=>{
-    /*listService("clientes",numeroPagina).then((data)=>{
+    listService("clientes",numeroPagina).then((data)=>{
       setColumnas(Object.keys(data[0]));
       setFilas(data);
-    })*/
-    //setColumnas(Object.keys(fakeData[0]));
-    //setColumnas(["asd","asd"])
-    //setFilas(fakeData);
-    //console.log(fakeData)
-    const datos=[
-      {
-        nombres: "Erick Vaernet",
-        edad:25
-      },{
-        nombres: "Erick Vaernet",
-        edad:25
-      },{
-        nombres: "Erick Vaernet",
-        edad:25
-      },{
-        nombres: "Erick Vaernet",
-        edad:25
-      }
-    ]
-    setColumnas(["nombres","edad"])
-    setFilas(datos)
-  },[]);
+    })
+  },[numeroPagina]);
   
 
   return (

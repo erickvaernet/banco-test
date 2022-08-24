@@ -18,12 +18,13 @@ const Table = ({columns,rows,...props}) => {
       </thead>
       <tbody>
         {rows.map((element,id)=>{
+          if(columns)
             return(
               <tr key={id}>
                 {columns.map((nombreProp,index)=>{
-                  <td key={index}>
+                  return (<td key={index}>
                     {element[nombreProp]}
-                  </td>
+                  </td>)
                 })}
               </tr>
               ); 
