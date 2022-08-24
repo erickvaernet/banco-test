@@ -1,27 +1,62 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import H1 from "../../components/H1/H1";
 import Table from "../../components/Table/Table";
-
+import Flechas from "../../components/Flechas/Flechas";
+import { listService } from "../../service/listService";
 import "./Clientes.css";
+import Nav from "../../components/Nav/Nav";
+import FlexBox from "../../components/FlexBox/FelxBox";
 
 const Clientes = () => {
-  const [columnas,setColumnas] = useState(null);
+
+  const [columnas,setColumnas] = useState([]);
   const [filas,setFilas] = useState(null);
+  const [numeroPagina,setNumeroPagina] = useState(0);
+  
   
   useEffect(()=>{
-    listService("clientes",0).then((data)=>{
+    /*listService("clientes",numeroPagina).then((data)=>{
       setColumnas(Object.keys(data[0]));
       setFilas(data);
-    })
+    })*/
+    //setColumnas(Object.keys(fakeData[0]));
+    //setColumnas(["asd","asd"])
+    //setFilas(fakeData);
+    //console.log(fakeData)
+    const datos=[
+      {
+        nombres: "Erick Vaernet",
+        edad:25
+      },{
+        nombres: "Erick Vaernet",
+        edad:25
+      },{
+        nombres: "Erick Vaernet",
+        edad:25
+      },{
+        nombres: "Erick Vaernet",
+        edad:25
+      }
+    ]
+    setColumnas(["nombres","edad"])
+    setFilas(datos)
   },[]);
-
   
 
   return (
-    <div className="main">
-      <H1>Clientes</H1>
-      {filas && columnas ? <Table/>:null}
-    </div>
+    <div>
+    <FlexBox>
+      <Nav/>
+      <div className="main">
+        <H1>Clientes</H1>
+        <div className="contenedor-tabla-flechas">
+          {filas && columnas ? <Table columns={columnas} rows={filas}/>:null}
+          
+          <Flechas numeroPagina={numeroPagina} setNumeroPagina={setNumeroPagina}/>
+        </div>
+      </div>
+    </FlexBox>
+  </div>
   );
 };
 

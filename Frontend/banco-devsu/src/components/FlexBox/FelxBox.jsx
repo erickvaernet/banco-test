@@ -1,8 +1,8 @@
 import React from 'react'
-import './FelxBox.css';
+import './FlexBox.css';
 const Logo = "/assets/Banco.png";
 
-const FelxBox = (props) => {
+const FlexBox = (props) => {
   const {primary , children, ...rest} = props;
   return (
     <div className='separator-nav-main'>
@@ -11,4 +11,4 @@ const FelxBox = (props) => {
   )
 }
 
-export default FelxBox;
+export default FlexBox;

@@ -1,0 +1,15 @@
+.flechas{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 20px;
+    font-size: 20px;
+}
+.flechas button{
+    background-color: white;
+    font-size: 20px;
+    border: 0px;
+}
+.flechas button:hover{
+    cursor: pointer;
+}

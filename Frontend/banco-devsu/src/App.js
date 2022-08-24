@@ -9,10 +9,8 @@ function App() {
   return (
     <div className="App">
       <Header/>
-      <FlexBox>
-        <Nav/>
-        <AdminRoutes/>
-      </FlexBox>
+      <AdminRoutes/>
+      
     </div>
   );
 }

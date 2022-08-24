@@ -6,7 +6,7 @@ const Table = ({columns,rows,...props}) => {
   const [] = useState(null);
 
   return (
-    <Table className="table-primary">
+    <table className="table-primary">
       <thead>
         <tr>
           {columns.map((element,index)=>{
@@ -17,11 +17,11 @@ const Table = ({columns,rows,...props}) => {
         </tr>
       </thead>
       <tbody>
-        {rows.map((element)=>{
+        {rows.map((element,id)=>{
             return(
-              <tr key={element.id}>
-                {columns.map((nombreProp)=>{
-                  <td>
+              <tr key={id}>
+                {columns.map((nombreProp,index)=>{
+                  <td key={index}>
                     {element[nombreProp]}
                   </td>
                 })}
@@ -29,7 +29,7 @@ const Table = ({columns,rows,...props}) => {
               ); 
           })}
       </tbody>
-    </Table>
+    </table>
   )
 }
 

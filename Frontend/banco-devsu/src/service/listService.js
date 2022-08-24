@@ -8,7 +8,7 @@ function listService(uri,page) {
     .get(`/${uri}?pagina=${page}`)
     .then(({ data: response }) => {
       const { resultados } = response;
-      return resultado;
+      return resultados;
     })
     .catch((error) => {
       throw new Error(`Los ${uri} no fueron retornados correctamente: ${error}`);
