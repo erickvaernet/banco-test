@@ -3,12 +3,12 @@ import axios from "axios";
 import instanceApi from "./instanceApi";
 
 function listService(uri,page) {
+  if(page<1)page=1;
   axios;
   return instanceApi
-    .get(`/${uri}?numeroPagina=${page}`)
+    .get(`/${uri}?pagina=${page-1}`)
     .then(({ data: response }) => {
-      const { resultados } = response;
-      return resultados;
+      return response;
     })
     .catch((error) => {
       throw new Error(`Los ${uri} no fueron retornados correctamente: ${error}`);

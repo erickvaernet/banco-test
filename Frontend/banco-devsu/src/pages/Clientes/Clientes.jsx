@@ -1,24 +1,36 @@
 import React, { useState,useEffect } from "react";
 import H1 from "../../components/H1/H1";
 import Table from "../../components/Table/Table";
-import Flechas from "../../components/Flechas/Flechas";
+import FlechasPaginacion from "../../components/FlechasPaginacion/FlechasPaginacion";
 import { listService } from "../../service/listService";
 import "./Clientes.css";
 import Nav from "../../components/Nav/Nav";
 import FlexBox from "../../components/FlexBox/FelxBox";
 
 const Clientes = () => {
-
-  const [columnas,setColumnas] = useState([]);
+  //const [columnas,setColumnas] = useState([]);
+  const columnas=[
+    "id",	
+    "identificacion",	
+    "nombres",
+    "genero",	
+    "fechaNacimiento",	
+    "edad",	
+    "direccion",	
+    "telefono",	
+    "contrasenia",	
+    "estado"
+  ]
   const [filas,setFilas] = useState(null);
-  const [numeroPagina,setNumeroPagina] = useState(0);
-  
+  const [numeroPagina,setNumeroPagina] = useState(1);
+  const [maxPaginas,setMaxPaginas] = useState(null);
   
   useEffect(()=>{
     listService("clientes",numeroPagina)?.then((data)=>{
-      console.log(data)
-      setColumnas(Object.keys(data[0]));
-      setFilas(data);
+      const{resultados,cantidad,tamanioDePagina}=data
+      //setColumnas(Object.keys(resultados[0]));
+      setFilas(resultados);
+      setMaxPaginas(Math.ceil(cantidad/tamanioDePagina));
     })
   },[numeroPagina]);
   
@@ -31,8 +43,7 @@ const Clientes = () => {
         <H1>Clientes</H1>
         <div className="contenedor-tabla-flechas">
           {filas && columnas ? <Table columns={columnas} rows={filas}/>:null}
-          
-          <Flechas numeroPagina={numeroPagina} setNumeroPagina={setNumeroPagina}/>
+          <FlechasPaginacion numeroPagina={numeroPagina} maximoPaginas={maxPaginas} setNumeroPagina={setNumeroPagina}/>
         </div>
       </div>
     </FlexBox>

@@ -10,6 +10,7 @@ const Table = ({columns,rows,...props}) => {
       <thead>
         <tr>
           {columns.map((element,index)=>{
+            if(element==="contrasenia") return <th key={index}>{"contraseña"}</th>
             return(
               <th key={index}>{element}</th>
             ); 
@@ -23,7 +24,7 @@ const Table = ({columns,rows,...props}) => {
               <tr key={id}>
                 {columns.map((nombreProp,index)=>{
                   return (<td key={index}>
-                    {element[nombreProp]}
+                    {element[nombreProp].toString()}
                   </td>)
                 })}
               </tr>
