@@ -1,11 +1,34 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import './Table.css';
+import {listService} from '../../service/listService'
 
-const Table = (props) => {
-    const {}=props;
+const Table = ({columns,rows,...props}) => {
+  const [] = useState(null);
+
   return (
     <Table className="table-primary">
-        map({props})
+      <thead>
+        <tr>
+          {columns.map((element,index)=>{
+            return(
+              <th key={index}>{element}</th>
+            ); 
+          })}
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((element)=>{
+            return(
+              <tr key={element.id}>
+                {columns.map((nombreProp)=>{
+                  <td>
+                    {element[nombreProp]}
+                  </td>
+                })}
+              </tr>
+              ); 
+          })}
+      </tbody>
     </Table>
   )
 }

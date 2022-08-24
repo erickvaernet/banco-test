@@ -2,17 +2,17 @@
 import axios from "axios";
 import instanceApi from "./instanceApi";
 
-function GetClientes(setProducto) {
+function listService(uri,page) {
   axios;
   instanceApi
-    .get("/clientes?pagina=0")
+    .get(`/${uri}?pagina=${page}`)
     .then(({ data: response }) => {
       const { resultados } = response;
-      setProducto(resultados);
+      return resultado;
     })
     .catch((error) => {
-      throw new Error(`Los clientes no fueron retornados correctamente: ${error}`);
+      throw new Error(`Los ${uri} no fueron retornados correctamente: ${error}`);
     });
 }
 
-export { GetClientes };
+export { listService };
