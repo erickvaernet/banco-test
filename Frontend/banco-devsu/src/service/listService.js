@@ -4,8 +4,8 @@ import instanceApi from "./instanceApi";
 
 function listService(uri,page) {
   axios;
-  instanceApi
-    .get(`/${uri}?pagina=${page}`)
+  return instanceApi
+    .get(`/${uri}?numeroPagina=${page}`)
     .then(({ data: response }) => {
       const { resultados } = response;
       return resultados;

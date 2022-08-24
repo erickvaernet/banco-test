@@ -15,7 +15,8 @@ const Clientes = () => {
   
   
   useEffect(()=>{
-    listService("clientes",numeroPagina).then((data)=>{
+    listService("clientes",numeroPagina)?.then((data)=>{
+      console.log(data)
       setColumnas(Object.keys(data[0]));
       setFilas(data);
     })
