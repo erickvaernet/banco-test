@@ -1,0 +1,56 @@
+.inputText {
+    display: flex;
+    gap: 1rem;
+    margin: 20px;
+    justify-content: space-between;
+    flex-wrap: nowrap;
+    margin: 1rem;
+}
+
+.inputText .textInput {
+  background: var(--color-cuatro);
+  opacity: 1;
+  box-shadow: 0rem 0.0625rem 0.3125rem rgba(0, 0, 0, 0.15);
+  border-radius: 0.3125rem;
+  width: 20rem;
+  padding: 0.5rem;
+  border-radius: 0.3125rem;
+  font-size: 1.125rem;
+  cursor: pointer;
+  background: #ffffff;
+}
+.inputText .textInput::-webkit-input-placeholder {
+  opacity: 0.5;
+  color: #499e89;
+  font-size: 0.875rem;
+}
+.inputText label {
+  line-height: 30px;
+  font-weight: 500;
+  font-size: 1.2rem;
+  color: #235548;
+}
+.contenedor-conjuntoRadios{
+  display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  background: var(--color-cuatro);
+  opacity: 1;
+  box-shadow: 0rem 0.0625rem 0.3125rem rgba(0, 0, 0, 0.15);
+  border-radius: 0.3125rem;
+  width: 20rem;
+  padding: 0.5rem;
+  border-radius: 0.3125rem;
+  margin-bottom: 1rem;
+  font-size: 1.125rem;
+  background: #ffffff;
+  border: none;
+}
+.contenedor-radio{
+ display: flex;
+ gap: 1rem;
+}
+
+.contenedor-radio input{
+  cursor: pointer;
+}

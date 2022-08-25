@@ -53,3 +53,8 @@ org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.
 org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:61)
 java.base/java.lang.Thread.run(Thread.java:833)
 
+[2022-08-24 23-41-37] [ ERROR] [GlobalExceptionHandler:61] Error en la URI: /clientes Error: Errores de Validación: contrasenia: La contraseña debe tener entre 4 y 255 caracteres,
+[2022-08-25 00-17-23] [ ERROR] [GlobalExceptionHandler:61] Error en la URI: /clientes Error: Errores de Validación: contrasenia: La contraseña debe tener entre 4 y 255 caracteres,
+[2022-08-25 00-17-24] [ ERROR] [GlobalExceptionHandler:61] Error en la URI: /clientes Error: Errores de Validación: contrasenia: La contraseña debe tener entre 4 y 255 caracteres,
+[2022-08-25 00-17-36] [ ERROR] [GlobalExceptionHandler:61] Error en la URI: /clientes Error: Errores de Validación: contrasenia: La contraseña debe tener entre 4 y 255 caracteres,
+[2022-08-25 00-17-53] [ ERROR] [GlobalExceptionHandler:61] Error en la URI: /clientes Error: Errores de Validación: contrasenia: La contraseña debe tener entre 4 y 255 caracteres,

@@ -3,8 +3,9 @@ import React from "react";
 import "./Cuentas.css";
 
 const Cuentas = () => {
+  /*
   const [columnas,setColumnas] = useState([]);
-  /*const columnas=[
+  const columnas=[
     "id",	
     "identificacion",	
     "nombres",
@@ -15,7 +16,7 @@ const Cuentas = () => {
     "telefono",	
     "contrasenia",	
     "estado"
-  ]*/
+  ]
   const [filas,setFilas] = useState(null);
   const [numeroPagina,setNumeroPagina] = useState(1);
   const [maxPaginas,setMaxPaginas] = useState(null);
@@ -43,7 +44,7 @@ const Cuentas = () => {
       </div>
     </FlexBox>
   </div>
-  );
+  );*/
 };
 
 export default Cuentas;

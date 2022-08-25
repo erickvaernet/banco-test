@@ -6,7 +6,7 @@ function listService(uri,page) {
   if(page<1)page=1;
   axios;
   return instanceApi
-    .get(`/${uri}?pagina=${page-1}`)
+    .get(`${uri}?pagina=${page-1}`)
     .then(({ data: response }) => {
       return response;
     })

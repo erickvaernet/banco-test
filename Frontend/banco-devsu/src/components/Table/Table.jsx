@@ -1,16 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import './Table.css';
-import {listService} from '../../service/listService'
 
-const Table = ({columns,rows,...props}) => {
-  const [] = useState(null);
-
+const Table = ({ columnas,filas,nombresProps,...props}) => {
   return (
     <table className="table-primary">
       <thead>
         <tr>
-          {columns.map((element,index)=>{
-            if(element==="contrasenia") return <th key={index}>{"contraseña"}</th>
+          { columnas.map((element,index)=>{
             return(
               <th key={index}>{element}</th>
             ); 
@@ -18,11 +14,12 @@ const Table = ({columns,rows,...props}) => {
         </tr>
       </thead>
       <tbody>
-        {rows.map((element,id)=>{
-          if(columns)
+        {filas.map((element,id)=>{
+          if( columnas)
             return(
               <tr key={id}>
-                {columns.map((nombreProp,index)=>{
+                {nombresProps.map((nombreProp,index)=>{
+                  if(nombreProp=="contrasenia") return <td key={index}>********</td>
                   return (<td key={index}>
                     {element[nombreProp].toString()}
                   </td>)

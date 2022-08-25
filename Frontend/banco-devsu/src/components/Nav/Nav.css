@@ -1,7 +1,23 @@
-.nav{
-    width: 15%;
-    min-height: calc(100vh - 6.25rem);
-    display: flex;
-    flex-direction: column;
-    border: 1px grey solid;
+.nav {
+  width: 15%;
+  min-height: calc(100vh - 6.25rem);
+  display: flex;
+  flex-direction: column;
+  border: 1px grey solid;
+}
+.nav li {
+  justify-content: center;
+}
+
+.nav li a {
+  justify-content: center;
+  text-decoration: none;
+  font-size: 1.7rem;
+  color: #000;
+  font-weight: lighter;
+  font-family: "Times New Roman", Times, serif;
+}
+.nav li a p.link-button {
+  padding: 15px 15px 15px 15px;
+  border-bottom: solid gray 1px;
 }

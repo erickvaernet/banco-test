@@ -4,3 +4,7 @@ h1.title {
   font-family: 'Times New Roman', Times, serif;
   color: #000;
 }
+
+h1.centrado{
+  justify-content: center;
+}
