@@ -2,15 +2,16 @@ import React, { useState, useEffect } from "react";
 import Table from "../../../components/Table/Table";
 import FlechasPaginacion from "../../../components/FlechasPaginacion/FlechasPaginacion";
 import { listService } from "../../../service/listService";
-import "../../Clientes/Clientes.css";
-import "./TablaClientesModal.css";
-import camposClientes from "../../Clientes/CamposClientes.js";
+import "../../Cuentas/Cuentas.css";
+import "./TablaCuentasModal.css";
+import camposCuentas from "../../Cuentas/CamposCuentas.js";
 import Modal from "../../../components/Modal/Modal";
+import { getByIdService } from "../../../service/getByIdService";
 
-const TablaClientesModal = ({setClienteSelect,tablaClientes,setTablaClientes,setClienteId, setClienteNombre}) => {
-  const uri="/clientes";
-  const nombresProps = camposClientes.map((campos) => campos["nombre"]);
-  const columnas = camposClientes.map((campos) => campos["nombreForm"]);
+const TablaCuentasModal = ({setCuentaSelect,tablaCuentas,setTablaCuentas,setCuentaId, setCuentaNombre}) => {
+  const uri="/cuentas";
+  const nombresProps = camposCuentas.map((campos) => campos["nombre"]);
+  const columnas = camposCuentas.map((campos) => campos["nombreForm"]);
   const [filas, setFilas] = useState(null);
   const [numeroPagina, setNumeroPagina] = useState(1);
   const [maxPaginas, setMaxPaginas] = useState(null);
@@ -23,13 +24,14 @@ const TablaClientesModal = ({setClienteSelect,tablaClientes,setTablaClientes,set
     });
   }, [numeroPagina])
 
-  const onSelectRow=(id,nombre)=>{
-    console.log(nombre)
-    setClienteSelect({id:id,nombres:nombre})
-    setTablaClientes(false);
+  const onSelectRowCuenta=(id,nombre)=>{
+    console.log(id)
+    setCuentaSelect({id:id,nombres:nombre})
+    setTablaCuentas(false);
   }
+
   return (
-    <Modal open={tablaClientes} setOpen={setTablaClientes}>
+    <Modal open={tablaCuentas} setOpen={setTablaCuentas}>
       <div className="contenedor-tabla-flechas">
           {filas && columnas ? (
           <Table
@@ -37,8 +39,8 @@ const TablaClientesModal = ({setClienteSelect,tablaClientes,setTablaClientes,set
               nombresProps={nombresProps}
               filas={filas}
               CRUDTable={false}
-              onSelectRow={onSelectRow}
-              setClienteNombre={setClienteNombre}
+              onSelectRowCuenta={onSelectRowCuenta}
+              setCuentaNombre={setCuentaNombre}
           />
           ) : null}
           <FlechasPaginacion
@@ -51,4 +53,4 @@ const TablaClientesModal = ({setClienteSelect,tablaClientes,setTablaClientes,set
   )
 }
 
-export default TablaClientesModal
+export default TablaCuentasModal;

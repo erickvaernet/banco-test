@@ -2,9 +2,11 @@ import React, { useEffect, useState } from 'react'
 import CrudButtons from "../CrudButtons/CrudButtons";
 import './Table.css';
 
-const Table = ({setClienteNombre,onSelectRow,CRUDTable,onClickDelete,onClickEdit,columnas,filas,nombresProps,...props}) => {
+const Table = ({onSelectRowCuenta,setClienteNombre,onSelectRow,CRUDTable,onClickDelete,onClickEdit,columnas,filas,nombresProps,...props}) => {
+  //Sacar fuera del componente
   const handleOnClick= (idElement,element) =>{
     if(onSelectRow) onSelectRow(idElement,element["nombres"]);
+    if(onSelectRowCuenta) onSelectRowCuenta(idElement,element["cliente"]["nombres"])
   }
   return (
     <table className="table-primary">

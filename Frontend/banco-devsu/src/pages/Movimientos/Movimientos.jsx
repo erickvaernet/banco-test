@@ -11,45 +11,54 @@ import { listService } from "../../service/listService";
 import { postService } from "../../service/postService";
 import CamposMovimientos from "./CamposMovimientos";
 import "./Movimientos.css";
+import TablaCuentasModal from "./TablaCuentasModal/TablaCuentasModal";
 
 const Movimientos = () => {
-  const uri="/movimientos"
-  const nombresProps = CamposMovimientos.map((campos) =>{ 
-    return campos["subprop"]? campos["nombre"]:campos["nombre"]
+  const uri = "/movimientos";
+  const nombresProps = CamposMovimientos.map((campos) => {
+    return campos["subprop"] ? campos["nombre"] : campos["nombre"];
   });
   const columnas = CamposMovimientos.map((campos) => campos["nombreForm"]);
   const [filas, setFilas] = useState(null);
   const [numeroPagina, setNumeroPagina] = useState(1);
   const [maxPaginas, setMaxPaginas] = useState(null);
   const [openModal, setOpenModal] = useState(false);
-  const [reRender,setReRender] = useState(1);
+  const [reRender, setReRender] = useState(1);
+  const [cuentaSelect, setCuentaSelect] = useState(null);
+  const [tablaCuentas, setTablaCuentas] = useState(false);
+  
 
   useEffect(() => {
     listService(uri, numeroPagina)?.then((data) => {
       const { resultados, cantidad, tamanioDePagina } = data;
-      resultados.forEach((e)=>e["cuenta"]=e["cuenta"]["numeroCuenta"])
-      setFilas(resultados);      
+      resultados.forEach((e) => (e["cuenta"] = e["cuenta"]["numeroCuenta"]));
+      setFilas(resultados);
       setMaxPaginas(Math.ceil(cantidad / tamanioDePagina));
     });
-  }, [numeroPagina,reRender]);
-  
+  }, [numeroPagina, reRender]);
+
   const onSubmit = (data) => {
-    postService(uri, data).then(()=>{
+    postService(uri, data).then(() => {
       setOpenModal(false);
-      setReRender(reRender+1)
+      setReRender(reRender + 1);
     });
   };
   const handleClickNuevoRegistro = () => {
     setOpenModal(true);
   };
-  const onClickDelete = (event)=>{
-    deleteByIdService(uri,event.target.value)
-    .then(()=>setReRender(reRender+1));
-  }
-  const onClickEdit = (event)=>{
+  const onClickDelete = (event) => {
+    deleteByIdService(uri, event.target.value).then(() =>
+      setReRender(reRender + 1)
+    );
+  };
+  const onClickEdit = (event) => {
     //next-sprint
-  }
-  
+  };
+  const handleNuevoClick = () => {
+    setCuentaSelect(null);
+    setTablaCuentas(true);
+  };
+
   return (
     <div>
       <FlexBox>
@@ -69,7 +78,19 @@ const Movimientos = () => {
             openModal={openModal}
             setOpenModal={setOpenModal}
           >
-            <Button >Seleccionar</Button>
+            <Button>Seleccionar</Button>
+            <div className="contenedor-seleccionarComponente">
+              <label>Seleccionar cuenta:</label>
+              {cuentaSelect ? <p>{cuentaSelect["nombres"]}</p> : null}
+              <Button className="button-secondary" onClick={handleNuevoClick}>
+                Seleccionar Cuenta
+              </Button>
+            </div>
+            <TablaCuentasModal
+              setTablaCuentas={setTablaCuentas}
+              tablaCuentas={tablaCuentas}
+              setCuentaSelect={setCuentaSelect}
+            />
           </ModalForm>
           <div className="contenedor-tabla-flechas">
             {filas && columnas ? (

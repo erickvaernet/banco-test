@@ -13,16 +13,16 @@ const CamposMovimientos =[
       placeHolder: "1600.60"
     },
     {
-      nombre: "cuenta",
-      nombreForm: "Cuenta Destino",
-      tipo: "number",
-      placeHolder: "3123"
-    },
-    {
       nombre: "tipo",
       nombreForm: "Tipo",
       tipo: "radio",
       values:["deposito","retiro"]
+    },
+    {
+      nombre: "cuenta",
+      nombreForm: "Cuenta Destino",
+      tipo: "custom",
+      placeHolder: "3123"
     }
   ];
 

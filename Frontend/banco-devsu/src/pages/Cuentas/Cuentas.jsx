@@ -24,7 +24,6 @@ const Cuentas = () => {
   const [openModal, setOpenModal] = useState(false);
   const [reRender, setReRender] = useState(1);
   const [clienteSelect, setClienteSelect] = useState(null);
-  //const [clienteNombre, setClienteNombre] = useState(null);
   const [tablaClientes, setTablaClientes] = useState(false);
 
   useEffect(() => {
@@ -60,10 +59,10 @@ const Cuentas = () => {
   const onClickEdit = (event) => {
     //next-sprint
   };
-  const handleNuevoClick=()=>{
-    setClienteSelect(null)
-    setTablaClientes(true)
-  }
+  const handleNuevoClick = () => {
+    setClienteSelect(null);
+    setTablaClientes(true);
+  };
 
   return (
     <div>
@@ -87,10 +86,7 @@ const Cuentas = () => {
             <div className="contenedor-seleccionarComponente">
               <label>Seleccionar cliente:</label>
               {clienteSelect ? <p>{clienteSelect["nombres"]}</p> : null}
-              <Button
-                className="button-secondary"
-                onClick={handleNuevoClick}
-              >
+              <Button className="button-secondary" onClick={handleNuevoClick}>
                 Seleccionar
               </Button>
             </div>
