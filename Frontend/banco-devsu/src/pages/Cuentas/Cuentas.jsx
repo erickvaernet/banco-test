@@ -3,6 +3,7 @@ import Button from "../../components/Button/Button";
 import FlechasPaginacion from "../../components/FlechasPaginacion/FlechasPaginacion";
 import FlexBox from "../../components/FlexBox/FelxBox";
 import H1 from "../../components/H1/H1";
+import Modal from "../../components/Modal/Modal";
 import ModalForm from "../../components/ModalForm/ModalForm";
 import Nav from "../../components/Nav/Nav";
 import Table from "../../components/Table/Table";
@@ -25,25 +26,28 @@ const Cuentas = () => {
   const [reRender, setReRender] = useState(1);
   const [clienteSelect, setClienteSelect] = useState(null);
   const [tablaClientes, setTablaClientes] = useState(false);
+  const [errores, setErrores]=  useState(null);
+  const [erroresOpen, setErroresOpen]=  useState(false);
 
   useEffect(() => {
-    console.log(openModal);
     listService(uri, numeroPagina)?.then((data) => {
       const { resultados, cantidad, tamanioDePagina } = data;
       resultados.forEach((e) => (e["cliente"] = e["cliente"]["nombres"]));
       setFilas(resultados);
       setMaxPaginas(Math.ceil(cantidad / tamanioDePagina));
-      console.log(data["cantidad"]);
     });
   }, [numeroPagina, reRender]);
 
   const onSubmit = (data) => {
     data["cliente"] = {
-      id: clienteSelect["id"],
+      "id": clienteSelect["id"],
     };
     postService(uri, data).then(() => {
       setOpenModal(false);
       setReRender(reRender + 1);
+    }).catch((error)=>{
+      setErrores(error);
+      setErroresOpen(true);
     });
   };
 
@@ -96,6 +100,7 @@ const Cuentas = () => {
               setClienteSelect={setClienteSelect}
             />
           </ModalForm>
+          <Modal open={erroresOpen}  setOpen={setErroresOpen}><p className={"modalErrors"}>{errores? errores.toString():null}</p></Modal>
           <div className="contenedor-tabla-flechas">
             {filas && columnas ? (
               <Table

@@ -19,14 +19,14 @@ const TablaCuentasModal = ({setCuentaSelect,tablaCuentas,setTablaCuentas,setCuen
   useEffect(() => {
     listService(uri, numeroPagina)?.then((data) => {
       const { resultados, cantidad, tamanioDePagina } = data;
+      resultados.forEach((e)=>e["cliente"]=e["cliente"]["nombres"])
       setFilas(resultados);
       setMaxPaginas(Math.ceil(cantidad / tamanioDePagina));
     });
   }, [numeroPagina])
 
-  const onSelectRowCuenta=(id,nombre)=>{
-    console.log(id)
-    setCuentaSelect({id:id,nombres:nombre})
+  const handleOnClick=(id,elemento)=>{
+    setCuentaSelect({"id":id,"nombres":elemento["cliente"]["nombres"]})
     setTablaCuentas(false);
   }
 
@@ -39,7 +39,7 @@ const TablaCuentasModal = ({setCuentaSelect,tablaCuentas,setTablaCuentas,setCuen
               nombresProps={nombresProps}
               filas={filas}
               CRUDTable={false}
-              onSelectRowCuenta={onSelectRowCuenta}
+              handleOnClick={handleOnClick}
               setCuentaNombre={setCuentaNombre}
           />
           ) : null}

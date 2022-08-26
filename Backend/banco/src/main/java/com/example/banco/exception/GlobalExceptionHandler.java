@@ -2,11 +2,13 @@ package com.example.banco.exception;
 
 import org.apache.log4j.Logger;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.format.DateTimeParseException;
 import java.util.Arrays;
 
 
@@ -33,8 +35,14 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler({InvalidIdException.class,ClientIllegalArgumentException.class})
     @ResponseBody
-    public ErrorMessage handleInvalidIDException(HttpServletRequest req,Exception ex){
+    public ErrorMessage handleInvalidIdException(HttpServletRequest req,Exception ex){
         return createErrorMessage(req.getRequestURI(),ex.getMessage());
+    }
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler({DateTimeParseException.class})
+    @ResponseBody
+    public ErrorMessage handleInvalidDateException(HttpServletRequest req,Exception ex){
+        return createErrorMessage(req.getRequestURI(),"La fecha no fue enviada con el formato apropiado de año-mes-dia. Ejemplo: 1997-11-28");
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)

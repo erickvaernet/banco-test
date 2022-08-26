@@ -23,9 +23,8 @@ const TablaClientesModal = ({setClienteSelect,tablaClientes,setTablaClientes,set
     });
   }, [numeroPagina])
 
-  const onSelectRow=(id,nombre)=>{
-    console.log(nombre)
-    setClienteSelect({id:id,nombres:nombre})
+  const handleOnClick=(id,elemento)=>{
+    setClienteSelect({"id":id,"nombres":elemento["nombres"]})
     setTablaClientes(false);
   }
   return (
@@ -37,7 +36,7 @@ const TablaClientesModal = ({setClienteSelect,tablaClientes,setTablaClientes,set
               nombresProps={nombresProps}
               filas={filas}
               CRUDTable={false}
-              onSelectRow={onSelectRow}
+              handleOnClick={handleOnClick}
               setClienteNombre={setClienteNombre}
           />
           ) : null}

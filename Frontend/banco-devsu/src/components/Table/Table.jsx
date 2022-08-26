@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react'
 import CrudButtons from "../CrudButtons/CrudButtons";
 import './Table.css';
 
-const Table = ({onSelectRowCuenta,setClienteNombre,onSelectRow,CRUDTable,onClickDelete,onClickEdit,columnas,filas,nombresProps,...props}) => {
+const Table = ({ handleOnClick,onSelectRowCuenta,setClienteNombre,onSelectRow,CRUDTable,onClickDelete,onClickEdit,columnas,filas,nombresProps,...props}) => {
   //Sacar fuera del componente
-  const handleOnClick= (idElement,element) =>{
+  /*const handleOnClick= (idElement,element) =>{
     if(onSelectRow) onSelectRow(idElement,element["nombres"]);
     if(onSelectRowCuenta) onSelectRowCuenta(idElement,element["cliente"]["nombres"])
-  }
+  }*/
   return (
     <table className="table-primary">
       <thead>
@@ -25,7 +25,7 @@ const Table = ({onSelectRowCuenta,setClienteNombre,onSelectRow,CRUDTable,onClick
           if(columnas){
             const idElement=element["id"]?element["id"]:element["numeroCuenta"];
             return(
-              <tr key={index} onClick={()=>handleOnClick(idElement,element)} 
+              <tr key={index} onClick={()=>handleOnClick?handleOnClick(idElement,element):null} 
               className={CRUDTable? "":"cliente-seleccionado"} value={idElement} >
                 {nombresProps.map((nombreProp,index)=>{
                   if(nombreProp=="contrasenia") return <td key={index}>********</td>

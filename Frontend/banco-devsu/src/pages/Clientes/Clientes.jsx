@@ -11,6 +11,7 @@ import ModalForm from "../../components/ModalForm/ModalForm";
 import camposClientes from "./CamposClientes.js";
 import { postService } from "../../service/postService";
 import { deleteByIdService } from "../../service/deleteByIdService";
+import Modal from "../../components/Modal/Modal";
 
 const Clientes = () => {
   const uri="/clientes";
@@ -21,6 +22,8 @@ const Clientes = () => {
   const [maxPaginas, setMaxPaginas] = useState(null);
   const [openModal, setOpenModal] = useState(false);
   const [reRender, setReRender] = useState(1);
+  const [errores, setErrores]=  useState(null);
+  const [erroresOpen, setErroresOpen]=  useState(false);
 
   useEffect(() => {
     listService(uri, numeroPagina)?.then((data) => {
@@ -31,10 +34,13 @@ const Clientes = () => {
   }, [numeroPagina,reRender]);
 
   const onSubmit = (data) => {
-    postService(uri, data).then(()=>{
-      setOpenModal(false); 
-      setReRender(reRender+1);
-    });
+      postService(uri, data).then(()=>{
+        setOpenModal(false); 
+        setReRender(reRender+1);
+      }).catch((error)=>{
+        setErrores(error);
+        setErroresOpen(true);
+      });
   };
 
   const handleClickNuevoRegistro = () => {
@@ -67,6 +73,7 @@ const Clientes = () => {
             openModal={openModal}
             setOpenModal={setOpenModal}
           />
+           <Modal open={erroresOpen} setOpen={setErroresOpen}><p className={"modalErrors"}>{errores? errores.toString():null}</p></Modal>
           <div className="contenedor-tabla-flechas">
             {filas && columnas ? (
               <Table

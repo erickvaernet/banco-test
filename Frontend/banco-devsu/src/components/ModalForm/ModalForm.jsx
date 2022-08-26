@@ -24,6 +24,7 @@ const ModalForm = (props) => {
                     nombreLabel={campo.nombreForm}
                     nombre={campo.nombre}
                     placeholder={campo.placeHolder}
+                    errors={errors}
                 />:null
                 )}
                 {children}

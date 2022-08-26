@@ -3,6 +3,7 @@ import Button from "../../components/Button/Button";
 import FlechasPaginacion from "../../components/FlechasPaginacion/FlechasPaginacion";
 import FlexBox from "../../components/FlexBox/FelxBox";
 import H1 from "../../components/H1/H1";
+import Modal from "../../components/Modal/Modal";
 import ModalForm from "../../components/ModalForm/ModalForm";
 import Nav from "../../components/Nav/Nav";
 import Table from "../../components/Table/Table";
@@ -26,6 +27,8 @@ const Movimientos = () => {
   const [reRender, setReRender] = useState(1);
   const [cuentaSelect, setCuentaSelect] = useState(null);
   const [tablaCuentas, setTablaCuentas] = useState(false);
+  const [errores, setErrores]=  useState(null);
+  const [erroresOpen, setErroresOpen]=  useState(false);
   
 
   useEffect(() => {
@@ -38,9 +41,15 @@ const Movimientos = () => {
   }, [numeroPagina, reRender]);
 
   const onSubmit = (data) => {
+    data["cuenta"]={
+      "numeroCuenta":cuentaSelect["id"]
+    }
     postService(uri, data).then(() => {
       setOpenModal(false);
       setReRender(reRender + 1);
+    }).catch((error)=>{
+      setErrores(error);
+      setErroresOpen(true);
     });
   };
   const handleClickNuevoRegistro = () => {
@@ -78,7 +87,6 @@ const Movimientos = () => {
             openModal={openModal}
             setOpenModal={setOpenModal}
           >
-            <Button>Seleccionar</Button>
             <div className="contenedor-seleccionarComponente">
               <label>Seleccionar cuenta:</label>
               {cuentaSelect ? <p>{cuentaSelect["nombres"]}</p> : null}
@@ -92,6 +100,7 @@ const Movimientos = () => {
               setCuentaSelect={setCuentaSelect}
             />
           </ModalForm>
+          <Modal  open={erroresOpen} setOpen={setErroresOpen}><p className={"modalErrors"}>{errores? errores.toString():null}</p></Modal>
           <div className="contenedor-tabla-flechas">
             {filas && columnas ? (
               <Table

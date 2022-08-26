@@ -1,12 +1,6 @@
 
 const CamposMovimientos =[
     {
-      nombre: "fecha",
-      nombreForm: "Fecha",
-      tipo: "text",
-      placeHolder: "año-mes-dia ej: 1996-09-31"
-    },
-    {
       nombre: "valor",
       nombreForm: "Valor",
       tipo: "number",

@@ -11,7 +11,8 @@ function postService(uri,data) {
         return response
     })
     .catch((error) => {
-        throw new Error(`the products could not be returned correctly: ${error}`);
+        const errorM= error.response.data.message? error.response.data.message:error
+        throw new Error(`${errorM}`);
     });
 }
 

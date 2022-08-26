@@ -5,19 +5,19 @@ const CamposCuentas = [
       nombreForm: "tipo",
       placeHolder: "ahorro",
       tipo: "radio",
-      values:["ahorro","corriente"]
+      values:["ahorro","corriente"],
     },
     {
       nombre:"saldo",
       nombreForm: "saldo",
       tipo: "number",
-      placeHolder: "1600.50"
+      placeHolder: "1600.50",
     },
     {
       nombre:"estado" ,
       nombreForm: "estado",
       tipo: "radio",
-      values:["true","false"]
+      values:["true","false"],
     },
     {
       nombre:"cliente" ,

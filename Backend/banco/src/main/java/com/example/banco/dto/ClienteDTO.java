@@ -2,15 +2,21 @@ package com.example.banco.dto;
 
 import com.example.banco.dto.validationinterface.CreateCliente;
 import com.example.banco.dto.validationinterface.UpdateCliente;
+import com.example.banco.exception.ClientIllegalArgumentException;
 import com.example.banco.model.enums.GenerosEnum;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.validation.constraints.*;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.time.format.ResolverStyle;
 
 
 public class ClienteDTO {
@@ -77,6 +83,7 @@ public class ClienteDTO {
 
     @NotNull(message = "La fecha de nacimiento ser nula o estar vacía",groups = {CreateCliente.class})
     @Past(message = "La fecha de nacimiento no puede ser mayor a la fecha actual", groups = {CreateCliente.class, UpdateCliente.class})
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     public LocalDate getFechaNacimiento() {
         return fechaNacimiento;
     }
@@ -121,7 +128,7 @@ public class ClienteDTO {
         }else if("FEMENINO".equalsIgnoreCase(genero) || "F".equalsIgnoreCase(genero)){
             this.genero = GenerosEnum.FEMENINO;
         }
-        else {
+        else if("OTRO".equalsIgnoreCase(genero) || "O".equalsIgnoreCase(genero)) {
             this.genero = GenerosEnum.OTRO;
         }
     }
@@ -132,8 +139,12 @@ public class ClienteDTO {
     public void setNombres(String nombres) {
         this.nombres = nombres;
     }
-    public void setFechaNacimiento(LocalDate fechaNacimiento) {
-        this.fechaNacimiento = fechaNacimiento;
+    public void setFechaNacimiento(String fechaNacimiento) {
+        LocalDate fecha =LocalDate.parse(fechaNacimiento,
+                DateTimeFormatter.ofPattern("uuuu-M-d")
+                        .withResolverStyle(ResolverStyle.STRICT)
+        );
+        this.fechaNacimiento = fecha;
     }
     public void setDireccion(String direccion) {
         this.direccion = direccion;

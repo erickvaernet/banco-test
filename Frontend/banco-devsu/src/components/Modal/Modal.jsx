@@ -1,8 +1,5 @@
 import React, { Children, useState } from "react";
 import "./Modal.css";
-import Button from "../Button/Button"
-import H1 from "../H1/H1";
-import InputFormText from "../InputFormText/InputFormText";
 
 const Modal = (props) => {
   const {children,open,setOpen, ...rest } = props;
