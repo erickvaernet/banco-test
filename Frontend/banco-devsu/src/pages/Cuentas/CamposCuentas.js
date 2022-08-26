@@ -22,6 +22,8 @@ const CamposCuentas = [
     {
       nombre:"cliente" ,
       nombreForm: "cliente",
+      subpropGet:"nombres",
+      subpropRequest:"id",
       tipo: "select",
       placeHolder: "Juan Perez"
     }

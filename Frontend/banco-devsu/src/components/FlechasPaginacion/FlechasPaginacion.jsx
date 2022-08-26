@@ -14,7 +14,9 @@ const FlechasPaginacion = (props) => {
   return (
     <div className="flechas">
       <button onClick={handleClickPrev}>{"<"}</button>
-      <p>{numeroPagina}</p>
+      <p>
+        {maximoPaginas?.toString()=="NaN"?(0+"/"+0):(numeroPagina+"/"+maximoPaginas)}
+      </p>
       <button onClick={handleClickNext} >{">"}</button>
     </div>
   );

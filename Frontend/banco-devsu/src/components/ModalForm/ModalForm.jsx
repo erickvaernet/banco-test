@@ -8,7 +8,7 @@ import Modal from '../Modal/Modal'
 import "./ModalForm.css"
 
 const ModalForm = (props) => {
-    const { onSubmit,titulo,campos,openModal,setOpenModal,...rest} = props
+    const {children,onSubmit,titulo,campos,openModal,setOpenModal,...rest} = props
     const { register, handleSubmit, formState: { errors } } = useForm();
   return (
         <Modal open={openModal} setOpen={setOpenModal}>
@@ -25,6 +25,7 @@ const ModalForm = (props) => {
                     placeholder={campo.placeHolder}
                 />
                 )}
+                {children}
               <Button type="submit" onClick={handleSubmit}>
                 Enviar
               </Button>

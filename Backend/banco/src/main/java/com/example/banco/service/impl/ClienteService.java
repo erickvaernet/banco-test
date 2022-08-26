@@ -15,6 +15,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.List;
@@ -33,6 +34,7 @@ public class ClienteService implements IClienteService {
     }
 
     @Override
+    @Transactional
     public ClienteDTO createCliente(ClienteDTO createClienteDTO) {
         Cliente cliente = mapToEntity(createClienteDTO);
         Cliente newCliente = clienteRepository.save(cliente);
@@ -40,6 +42,7 @@ public class ClienteService implements IClienteService {
     }
 
     @Override
+    @Transactional
     public ClienteDTO updateClientePUT(Integer id, ClienteDTO clienteDTO) {
         if(id==null || id <= 0) throw new InvalidIdException();
         clienteRepository.findById(id)
@@ -51,6 +54,7 @@ public class ClienteService implements IClienteService {
     }
 
     @Override
+    @Transactional
     public ClienteDTO updateClientePATCH(Integer id, ClienteDTO clienteDTO) {
         if(id==null || id <= 0) throw new InvalidIdException();
         Cliente cliente = clienteRepository.findById(id)

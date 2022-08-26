@@ -19,6 +19,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -37,6 +38,7 @@ public class MovimientoService implements IMovimientoService {
     }
 
     @Override
+    @Transactional
     public MovimientoDTO createMovimiento(MovimientoDTO createMovimientoDTO) {
         CuentaDTO cuenta = cuentaService.findCuentaById(createMovimientoDTO.getCuenta().getNumeroCuenta());
         createMovimientoDTO.setSaldoInicial(cuenta.getSaldo());
@@ -55,6 +57,7 @@ public class MovimientoService implements IMovimientoService {
 
 
     @Override
+    @Transactional
     public MovimientoDTO updateMovimientoPUT(Integer id,MovimientoDTO updateMovimientoDTO) {
         if(id==null || id <= 0) throw new InvalidIdException();
         Movimiento movimientoAnterior = movimientoRepository.findById(id)
@@ -70,12 +73,12 @@ public class MovimientoService implements IMovimientoService {
         }
         cuentaService.updateCuentaPatch(cuentaAnterior.getNumeroCuenta(),cuentaAnterior);
 
-        //cambiar saldos en cuentas del movimiento que sera actualizado
         return createMovimiento(updateMovimientoDTO);
     }
 
 
-        @Override
+    @Override
+    @Transactional
     public MovimientoDTO updateMovimientoPATCH(Integer id,MovimientoDTO updateMovimientoDTO) {
         if(id==null || id <= 0) throw new InvalidIdException();
         Movimiento movimiento = movimientoRepository.findById(id)
@@ -85,14 +88,21 @@ public class MovimientoService implements IMovimientoService {
         if (updateMovimientoDTO.getFecha()!=null) movimiento.setFecha(updateMovimientoDTO.getFecha());
         if (updateMovimientoDTO.getSaldoInicial()!=null) movimiento.setSaldoInicial(updateMovimientoDTO.getSaldoInicial());
         if (updateMovimientoDTO.getTipo()!=null) movimiento.setTipo(updateMovimientoDTO.getTipo());
-        if (updateMovimientoDTO.getValor()!=null && !updateMovimientoDTO.getTipo().equals(movimiento.getTipo())){
-            if(updateMovimientoDTO.getTipo().equals(TIpoMovimientoEnum.DEPOSITO))
-                cuenta.setSaldo(cuenta.getSaldo() + updateMovimientoDTO.getValor() + movimiento.getValor());
-            else if(updateMovimientoDTO.getTipo().equals(TIpoMovimientoEnum.RETIRO)){
-                controlarSaldoDisponible(updateMovimientoDTO,movimiento,cuenta);
+        if (updateMovimientoDTO.getValor()!=null){
+            if(!updateMovimientoDTO.getTipo().equals(movimiento.getTipo())){
+                if(updateMovimientoDTO.getTipo().equals(TIpoMovimientoEnum.DEPOSITO))
+                    cuenta.setSaldo(cuenta.getSaldo() + updateMovimientoDTO.getValor() + movimiento.getValor());
+                else if(updateMovimientoDTO.getTipo().equals(TIpoMovimientoEnum.RETIRO)){
+                    controlarSaldoDisponible(updateMovimientoDTO,movimiento,cuenta);
+                    cuenta.setSaldo(cuenta.getSaldo() - updateMovimientoDTO.getValor() - movimiento.getValor());
+                }
+            }
+            else{
+                movimiento.setValor(updateMovimientoDTO.getValor());
                 cuenta.setSaldo(cuenta.getSaldo() - updateMovimientoDTO.getValor() - movimiento.getValor());
             }
         }
+
         movimiento.setSaldoDisponible(movimiento.getSaldoInicial()-movimiento.getValor());
         Movimiento movimientoActualizado = movimientoRepository.save(movimiento);
         return mapToDTO(movimientoActualizado);

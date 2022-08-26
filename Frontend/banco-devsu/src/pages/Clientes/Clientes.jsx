@@ -10,30 +10,43 @@ import Button from "../../components/Button/Button";
 import ModalForm from "../../components/ModalForm/ModalForm";
 import camposClientes from "./CamposClientes.js";
 import { postService } from "../../service/postService";
+import { deleteByIdService } from "../../service/deleteByIdService";
 
 const Clientes = () => {
+  const uri="/clientes";
   const nombresProps = camposClientes.map((campos) => campos["nombre"]);
   const columnas = camposClientes.map((campos) => campos["nombreForm"]);
   const [filas, setFilas] = useState(null);
   const [numeroPagina, setNumeroPagina] = useState(1);
   const [maxPaginas, setMaxPaginas] = useState(null);
   const [openModal, setOpenModal] = useState(false);
+  const [reRender, setReRender] = useState(1);
 
   useEffect(() => {
-    listService("/clientes", numeroPagina)?.then((data) => {
+    listService(uri, numeroPagina)?.then((data) => {
       const { resultados, cantidad, tamanioDePagina } = data;
       setFilas(resultados);
       setMaxPaginas(Math.ceil(cantidad / tamanioDePagina));
     });
-  }, [numeroPagina]);
+  }, [numeroPagina,reRender]);
 
   const onSubmit = (data) => {
-    postService("/clientes", data).then(setOpenModal(false));
+    postService(uri, data).then(()=>{
+      setOpenModal(false); 
+      setReRender(reRender+1);
+    });
   };
 
   const handleClickNuevoRegistro = () => {
     setOpenModal(true);
   };
+  const onClickDelete = (event)=>{
+    deleteByIdService(uri,event.target.value)
+    .then(()=>setReRender(reRender+1));
+  }
+  const onClickEdit = (event)=>{
+    //next-sprint
+  }
 
   return (
     <div>
@@ -60,6 +73,9 @@ const Clientes = () => {
                 columnas={columnas}
                 nombresProps={nombresProps}
                 filas={filas}
+                CRUDTable={true}
+                onClickDelete={onClickDelete}
+                onClickEdit={onClickEdit}
               />
             ) : null}
             <FlechasPaginacion

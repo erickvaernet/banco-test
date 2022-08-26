@@ -1,32 +1,29 @@
 
-const CamposMovimientos = {
-  response:[
+const CamposMovimientos =[
+    {
+      nombre: "fecha",
+      nombreForm: "Fecha",
+      tipo: "text",
+      placeHolder: "año-mes-dia ej: 1996-09-31"
+    },
     {
       nombre: "valor",
-      nombreForm: "valor",
+      nombreForm: "Valor",
       tipo: "number",
       placeHolder: "1000.00"        
     },
     {
-      nombre: "numeroCuenta",
-      nombreForm: "Numero de Cuenta",
+      nombre: "cuenta",
+      nombreForm: "Cuenta Destino",
       tipo: "number",
       placeHolder: "3123"
     },
     {
       nombre: "tipo",
-      nombreForm: "tipo",
+      nombreForm: "Tipo",
       tipo: "radio",
       values:["deposito","retiro"]
     }
-  ],
-  request:[
-    {
-      nombre: "fecha",
-      nombreForm: "fecha",
-    },
-    ...response
-  ]
-};
+  ];
 
 export default CamposMovimientos;

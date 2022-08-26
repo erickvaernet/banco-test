@@ -1,0 +1,22 @@
+.tableCrudButtons{
+    display: flex;  
+    flex-direction: row;
+    justify-content: center;
+    gap:5px;
+}
+.tableCrudButtons button{
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    font-size: 1.5rem;
+    height: auto;
+    cursor: pointer;
+    font-weight: bold;
+}
+.tableCrudButtons button.deleteButton{
+    background-color: rgb(223, 170, 170);
+}
+
+.tableCrudButtons button.editButton{
+    background-color: rgb(175, 214, 117);
+}

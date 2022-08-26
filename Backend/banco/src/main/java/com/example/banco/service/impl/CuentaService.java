@@ -14,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,6 +32,7 @@ public class CuentaService implements ICuentaService {
     }
 
     @Override
+    @Transactional
     public CuentaDTO createCuenta(CuentaDTO cuentaDTO) {
         Cuenta cuenta = mapToEntity(cuentaDTO);
         Cuenta newCuenta = cuentaRepository.save(cuenta);
@@ -38,6 +40,7 @@ public class CuentaService implements ICuentaService {
     }
 
     @Override
+    @Transactional
     public CuentaDTO updateCuentaPatch(Integer numeroCuenta,CuentaDTO cuentaDTO) {
         if(numeroCuenta==null || numeroCuenta <= 0) throw new InvalidIdException();
         Cuenta cuenta = cuentaRepository.findById(numeroCuenta)
@@ -52,6 +55,7 @@ public class CuentaService implements ICuentaService {
     }
 
     @Override
+    @Transactional
     public CuentaDTO updateCuentaPut(Integer numeroCuenta,CuentaDTO cuentaDTO) {
         if(numeroCuenta==null || numeroCuenta <= 0) throw new InvalidIdException();
         cuentaRepository.findById(numeroCuenta)

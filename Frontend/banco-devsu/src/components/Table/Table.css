@@ -15,7 +15,7 @@ table.table-primary {
 
 .table-primary td, .table-primary th {
     border: 1px solid #bebebe;
-    text-align: left;
+    text-align: center;
     padding: 8px;
 }
 

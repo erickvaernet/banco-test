@@ -1,59 +1,59 @@
 
 const CamposReportes = [
     {
-      nombre: "identificacion",
-      nombreForm: "Identificacion",
+      nombre: "fecha",
+      nombreForm: "fecha",
       placeHolder: "45245777",
       tipo: "text"        
     },
     {
-      nombre: "nombres",
-      nombreForm: "Nombres",
+      nombre: "nombresCliente",
+      nombreForm: "nombresCliente",
       tipo: "text",
       placeHolder: "Erick Vaernet"        
     },
     {
-      nombre: "genero",
-      nombreForm: "Genero",
+      nombre: "numeroCuenta",
+      nombreForm: "numeroCuenta",
       tipo: "radio",
       values:["Masculino","Femenino","Otro"]
     },
     {
-      nombre: "fechaNacimiento",
-      nombreForm: "Fecha de Nacimiento",
-      tipo: "text",//fecha
-      placeHolder: "1996-09-31"
-    },
-    {
-      nombre: "edad",
-      nombreForm: "Edad",
+      nombre: "tipoCuenta",
+      nombreForm: "tipoCuenta",
       tipo: "number",
       placeHolder: 21    
     },
     {
-      nombre: "direccion",
-      nombreForm: "Direccion",
+      nombre: "saldoInicial",
+      nombreForm: "saldoInicial",
       tipo: "text",
       placeHolder: "Avenida Alvear 380"
     },
     {
-      nombre: "telefono",
-      nombreForm: "Telefono",
-      tipo: "text",
-      placeHolder: "+5493624284819"
-    },
-    {
-      nombre: "contrasenia",
-      nombreForm: "Contraseña",
+      nombre: "tipoMovimiento",
+      nombreForm: "tipoMovimiento",
       tipo: "password",
       placeHolder: "******"        
-    },
-    {
-      nombre: "estado",
-      nombreForm: "Estado",
+    },{
+      nombre: "valor",
+      nombreForm: "valor",
       tipo: "radio",
       values:["true","false"]
     },
+    {
+      nombre: "saldoDisponible",
+      nombreForm: "saldoDisponible",
+      tipo: "radio",
+      values:["true","false"]
+    },
+    {
+      nombre: "estado",
+      nombreForm: "estado",
+      tipo: "text",
+      placeHolder: "+5493624284819"
+    },
+    
   ];
 
 export default CamposReportes;

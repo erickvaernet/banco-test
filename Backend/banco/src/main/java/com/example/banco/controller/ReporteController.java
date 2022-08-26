@@ -26,8 +26,9 @@ public class ReporteController {
             @RequestParam(value = "fechaInicio", required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaInicio,
             @RequestParam(value = "fechaFin", required = false)@DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaFin
     ) {
-        PaginaDTO<ReporteDTO> paginaReportes;
-        paginaReportes = reporteService.getReporteByClienteIdAndFecha(fechaInicio, fechaFin,numeroPagina, tamanioPagina);
+        PaginaDTO<ReporteDTO> paginaReportes=null;
+        if(fechaInicio!=null && fechaFin!=null)paginaReportes = reporteService.getReporteByClienteIdAndFecha(fechaInicio, fechaFin,numeroPagina, tamanioPagina);
+        else paginaReportes = reporteService.getReporteByClienteIdAndFecha(LocalDate.now(), LocalDate.now(),numeroPagina, tamanioPagina);
         return new ResponseEntity<>(paginaReportes, HttpStatus.OK);
     }
 

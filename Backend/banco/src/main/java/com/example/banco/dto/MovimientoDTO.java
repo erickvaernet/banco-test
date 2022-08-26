@@ -12,7 +12,7 @@ import java.time.LocalDate;
 
 public class MovimientoDTO {
     private Integer id;
-    private LocalDate fecha;
+    private LocalDate fecha=LocalDate.now();
     private TIpoMovimientoEnum tipo;
     private Double valor;
     private Double saldoInicial;
@@ -37,7 +37,6 @@ public class MovimientoDTO {
         return id;
     }
 
-    @NotNull(message = "La fecha no puede ser nula", groups = {CreateMovimiento.class})
     public LocalDate getFecha() {
         return fecha;
     }
@@ -67,7 +66,7 @@ public class MovimientoDTO {
     }
 
     public void setFecha(LocalDate fecha) {
-        this.fecha = fecha;
+        this.fecha = LocalDate.now();
     }
 
     public void setTipo(String tipo) {

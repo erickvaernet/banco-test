@@ -21,8 +21,8 @@ const camposClientes = [
     {
       nombre: "fechaNacimiento",
       nombreForm: "Fecha de Nacimiento",
-      tipo: "text",//fecha
-      placeHolder: "1996-09-31"
+      tipo: "text",
+      placeHolder: "año-mes-dia ej: 1996-09-31"
     },
     {
       nombre: "edad",

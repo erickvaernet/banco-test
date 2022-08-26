@@ -3,7 +3,10 @@ package com.example.banco.dto;
 import com.example.banco.dto.validationinterface.CreateCliente;
 import com.example.banco.dto.validationinterface.UpdateCliente;
 import com.example.banco.model.enums.GenerosEnum;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.*;
