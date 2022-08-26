@@ -2,7 +2,7 @@
 import axios from "axios";
 import instanceApi from "./instanceApi";
 
-function getByIdService(uri,id) {
+function getByIdService(uri, id) {
   axios;
   return instanceApi
     .get(`${uri}/${id}`)
@@ -10,7 +10,9 @@ function getByIdService(uri,id) {
       return response;
     })
     .catch((error) => {
-      throw new Error(`Los ${uri} no fueron retornados correctamente: ${error}`);
+      throw new Error(
+        `Los ${uri} no fueron retornados correctamente: ${error}`
+      );
     });
 }
 

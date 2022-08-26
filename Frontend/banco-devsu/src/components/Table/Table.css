@@ -1,29 +1,29 @@
-
 table.table-primary {
-    margin: 30px 30px 30px 10px;
-    font-family: arial, sans-serif;
-    border-collapse: collapse;
-    width: 100%;
-    font-weight: lighter;
-    font-family: 'Times New Roman', Times, serif;
-    color: #000;
-    font-size: 1.2rem;    
+  margin: 30px 30px 30px 10px;
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  font-weight: lighter;
+  font-family: "Times New Roman", Times, serif;
+  color: #000;
+  font-size: 1.2rem;
 }
-.table-primary th{
-    font-weight: bold;
+.table-primary th {
+  font-weight: bold;
 }
 
-.table-primary td, .table-primary th {
-    border: 1px solid #bebebe;
-    text-align: center;
-    padding: 8px;
+.table-primary td,
+.table-primary th {
+  border: 1px solid #bebebe;
+  text-align: center;
+  padding: 8px;
 }
 
 .table-primary tr:nth-child(even) {
-    background-color: #dddddd;
+  background-color: #dddddd;
 }
 
-.cliente-seleccionado:hover{
-    background-color: #99f312cb !important ; 
-    cursor: pointer;
+.cliente-seleccionado:hover {
+  background-color: #99f312cb !important ;
+  cursor: pointer;
 }

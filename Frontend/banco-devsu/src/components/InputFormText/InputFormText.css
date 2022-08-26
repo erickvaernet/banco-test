@@ -1,10 +1,10 @@
 .inputText {
-    display: flex;
-    gap: 1rem;
-    margin: 20px;
-    justify-content: space-between;
-    flex-wrap: nowrap;
-    margin: 1rem;
+  display: flex;
+  gap: 1rem;
+  margin: 20px;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  margin: 1rem;
 }
 
 .inputText .textInput {
@@ -30,7 +30,7 @@
   font-size: 1.2rem;
   color: #235548;
 }
-.contenedor-conjuntoRadios{
+.contenedor-conjuntoRadios {
   display: flex;
   flex-direction: column;
   flex-wrap: nowrap;
@@ -45,11 +45,11 @@
   background: #ffffff;
   border: none;
 }
-.contenedor-radio{
- display: flex;
- gap: 1rem;
+.contenedor-radio {
+  display: flex;
+  gap: 1rem;
 }
 
-.contenedor-radio input{
+.contenedor-radio input {
   cursor: pointer;
 }

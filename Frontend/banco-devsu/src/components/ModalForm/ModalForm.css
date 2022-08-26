@@ -1,14 +1,14 @@
-.modal-form{
-    margin: 1rem
-  }
+.modal-form {
+  margin: 1rem;
+}
 
-.contenedor-centrado{
+.contenedor-centrado {
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
-.contenedor-centrado form{
+.contenedor-centrado form {
   display: flex;
   flex-direction: column;
   justify-content: center;

@@ -27,9 +27,8 @@ const Movimientos = () => {
   const [reRender, setReRender] = useState(1);
   const [cuentaSelect, setCuentaSelect] = useState(null);
   const [tablaCuentas, setTablaCuentas] = useState(false);
-  const [errores, setErrores]=  useState(null);
-  const [erroresOpen, setErroresOpen]=  useState(false);
-  
+  const [errores, setErrores] = useState(null);
+  const [erroresOpen, setErroresOpen] = useState(false);
 
   useEffect(() => {
     listService(uri, numeroPagina)?.then((data) => {
@@ -41,16 +40,18 @@ const Movimientos = () => {
   }, [numeroPagina, reRender]);
 
   const onSubmit = (data) => {
-    data["cuenta"]={
-      "numeroCuenta":cuentaSelect["id"]
-    }
-    postService(uri, data).then(() => {
-      setOpenModal(false);
-      setReRender(reRender + 1);
-    }).catch((error)=>{
-      setErrores(error);
-      setErroresOpen(true);
-    });
+    data["cuenta"] = {
+      numeroCuenta: cuentaSelect["id"],
+    };
+    postService(uri, data)
+      .then(() => {
+        setOpenModal(false);
+        setReRender(reRender + 1);
+      })
+      .catch((error) => {
+        setErrores(error);
+        setErroresOpen(true);
+      });
   };
   const handleClickNuevoRegistro = () => {
     setOpenModal(true);
@@ -100,7 +101,11 @@ const Movimientos = () => {
               setCuentaSelect={setCuentaSelect}
             />
           </ModalForm>
-          <Modal  open={erroresOpen} setOpen={setErroresOpen}><p className={"modalErrors"}>{errores? errores.toString():null}</p></Modal>
+          <Modal open={erroresOpen} setOpen={setErroresOpen}>
+            <p className={"modalErrors"}>
+              {errores ? errores.toString() : null}
+            </p>
+          </Modal>
           <div className="contenedor-tabla-flechas">
             {filas && columnas ? (
               <Table

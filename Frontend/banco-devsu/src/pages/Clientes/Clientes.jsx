@@ -14,7 +14,7 @@ import { deleteByIdService } from "../../service/deleteByIdService";
 import Modal from "../../components/Modal/Modal";
 
 const Clientes = () => {
-  const uri="/clientes";
+  const uri = "/clientes";
   const nombresProps = camposClientes.map((campos) => campos["nombre"]);
   const columnas = camposClientes.map((campos) => campos["nombreForm"]);
   const [filas, setFilas] = useState(null);
@@ -22,8 +22,8 @@ const Clientes = () => {
   const [maxPaginas, setMaxPaginas] = useState(null);
   const [openModal, setOpenModal] = useState(false);
   const [reRender, setReRender] = useState(1);
-  const [errores, setErrores]=  useState(null);
-  const [erroresOpen, setErroresOpen]=  useState(false);
+  const [errores, setErrores] = useState(null);
+  const [erroresOpen, setErroresOpen] = useState(false);
 
   useEffect(() => {
     listService(uri, numeroPagina)?.then((data) => {
@@ -31,13 +31,15 @@ const Clientes = () => {
       setFilas(resultados);
       setMaxPaginas(Math.ceil(cantidad / tamanioDePagina));
     });
-  }, [numeroPagina,reRender]);
+  }, [numeroPagina, reRender]);
 
   const onSubmit = (data) => {
-      postService(uri, data).then(()=>{
-        setOpenModal(false); 
-        setReRender(reRender+1);
-      }).catch((error)=>{
+    postService(uri, data)
+      .then(() => {
+        setOpenModal(false);
+        setReRender(reRender + 1);
+      })
+      .catch((error) => {
         setErrores(error);
         setErroresOpen(true);
       });
@@ -46,13 +48,14 @@ const Clientes = () => {
   const handleClickNuevoRegistro = () => {
     setOpenModal(true);
   };
-  const onClickDelete = (event)=>{
-    deleteByIdService(uri,event.target.value)
-    .then(()=>setReRender(reRender+1));
-  }
-  const onClickEdit = (event)=>{
+  const onClickDelete = (event) => {
+    deleteByIdService(uri, event.target.value).then(() =>
+      setReRender(reRender + 1)
+    );
+  };
+  const onClickEdit = (event) => {
     //next-sprint
-  }
+  };
 
   return (
     <div>
@@ -73,7 +76,11 @@ const Clientes = () => {
             openModal={openModal}
             setOpenModal={setOpenModal}
           />
-           <Modal open={erroresOpen} setOpen={setErroresOpen}><p className={"modalErrors"}>{errores? errores.toString():null}</p></Modal>
+          <Modal open={erroresOpen} setOpen={setErroresOpen}>
+            <p className={"modalErrors"}>
+              {errores ? errores.toString() : null}
+            </p>
+          </Modal>
           <div className="contenedor-tabla-flechas">
             {filas && columnas ? (
               <Table

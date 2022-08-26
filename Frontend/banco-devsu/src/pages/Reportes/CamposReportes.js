@@ -2,54 +2,54 @@
 const CamposReportes = [
     {
       nombre: "fecha",
-      nombreForm: "fecha",
+      nombreForm: "Fecha",
       placeHolder: "45245777",
       tipo: "text"        
     },
     {
       nombre: "nombresCliente",
-      nombreForm: "nombresCliente",
+      nombreForm: "Nombres del cliente",
       tipo: "text",
       placeHolder: "Erick Vaernet"        
     },
     {
       nombre: "numeroCuenta",
-      nombreForm: "numeroCuenta",
+      nombreForm: "Numero de cuenta",
       tipo: "radio",
       values:["Masculino","Femenino","Otro"]
     },
     {
       nombre: "tipoCuenta",
-      nombreForm: "tipoCuenta",
+      nombreForm: "Tipo de cuenta",
       tipo: "number",
       placeHolder: 21    
     },
     {
       nombre: "saldoInicial",
-      nombreForm: "saldoInicial",
+      nombreForm: "Saldo inicial",
       tipo: "text",
       placeHolder: "Avenida Alvear 380"
     },
     {
       nombre: "tipoMovimiento",
-      nombreForm: "tipoMovimiento",
+      nombreForm: "Tipo movimiento",
       tipo: "password",
       placeHolder: "******"        
     },{
       nombre: "valor",
-      nombreForm: "valor",
+      nombreForm: "Valor",
       tipo: "radio",
       values:["true","false"]
     },
     {
       nombre: "saldoDisponible",
-      nombreForm: "saldoDisponible",
+      nombreForm: "Saldo disponible",
       tipo: "radio",
       values:["true","false"]
     },
     {
       nombre: "estado",
-      nombreForm: "estado",
+      nombreForm: "Estado",
       tipo: "text",
       placeHolder: "+5493624284819"
     },

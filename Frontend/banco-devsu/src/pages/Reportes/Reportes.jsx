@@ -11,9 +11,8 @@ import { postService } from "../../service/postService";
 import CamposReportes from "./CamposReportes";
 import "./Reportes.css";
 
-
 const Reportes = () => {
-  const nombresProps = CamposReportes.map((campos) =>campos["nombre"]);
+  const nombresProps = CamposReportes.map((campos) => campos["nombre"]);
   const columnas = CamposReportes.map((campos) => campos["nombreForm"]);
   const [filas, setFilas] = useState(null);
   const [numeroPagina, setNumeroPagina] = useState(1);
@@ -23,12 +22,10 @@ const Reportes = () => {
   useEffect(() => {
     listService("/reportes", numeroPagina)?.then((data) => {
       const { resultados, cantidad, tamanioDePagina } = data;
-      //resultados.forEach((e)=>e["cliente"]=e["cliente"]["nombres"])
-      console.log(tamanioDePagina)
-      setFilas(resultados);      
+      setFilas(resultados);
       setMaxPaginas(Math.ceil(cantidad / tamanioDePagina));
     });
-  }, [numeroPagina,openModal]);
+  }, [numeroPagina, openModal]);
 
   const onSubmit = (data) => {
     console.log(data);
@@ -48,7 +45,7 @@ const Reportes = () => {
             <Button type="input" onClick={handleClickNuevoRegistro}>
               Buscar por fecha
             </Button>
-          </div>        
+          </div>
           <div className="contenedor-tabla-flechas">
             {filas && columnas ? (
               <Table

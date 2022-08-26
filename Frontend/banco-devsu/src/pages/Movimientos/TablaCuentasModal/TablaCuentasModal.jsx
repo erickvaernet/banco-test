@@ -26,7 +26,7 @@ const TablaCuentasModal = ({setCuentaSelect,tablaCuentas,setTablaCuentas,setCuen
   }, [numeroPagina])
 
   const handleOnClick=(id,elemento)=>{
-    setCuentaSelect({"id":id,"nombres":elemento["cliente"]["nombres"]})
+    setCuentaSelect({"id":id,"nombres":elemento["cliente"]+": "+elemento["tipo"]})
     setTablaCuentas(false);
   }
 

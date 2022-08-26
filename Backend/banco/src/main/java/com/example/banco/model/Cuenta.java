@@ -1,10 +1,12 @@
 package com.example.banco.model;
 
 import com.example.banco.model.enums.TipoCuentasEnum;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Set;
 
 @Entity
 @Table(name = "cuentas")
@@ -26,6 +28,9 @@ public class Cuenta {
     @JoinColumn(name = "cliente_id", nullable = false)
     private Cliente cliente;
 
+    @OneToMany(mappedBy = "cuenta", cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JsonIgnore
+    private Set<Movimiento> movimientos;
 
     public Cuenta() {
         //No-args constructor
@@ -69,5 +74,13 @@ public class Cuenta {
 
     public void setEstado(Boolean estado) {
         this.estado = estado;
+    }
+
+    public Set<Movimiento> getMovimientos() {
+        return movimientos;
+    }
+
+    public void setMovimientos(Set<Movimiento> movimientos) {
+        this.movimientos = movimientos;
     }
 }

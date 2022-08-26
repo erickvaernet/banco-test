@@ -1,10 +1,10 @@
 h1.title {
   font-size: 3rem;
   font-weight: lighter;
-  font-family: 'Times New Roman', Times, serif;
+  font-family: "Times New Roman", Times, serif;
   color: #000;
 }
 
-h1.centrado{
+h1.centrado {
   justify-content: center;
 }

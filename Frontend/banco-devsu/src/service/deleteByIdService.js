@@ -2,12 +2,12 @@
 import axios from "axios";
 import instanceApi from "./instanceApi";
 
-function deleteByIdService(uri,id) {
+function deleteByIdService(uri, id) {
   axios;
   return instanceApi
     .delete(`${uri}/${id}`)
     .then(({ data: response }) => {
-        console.log(response.status);
+      console.log(response.status);
       return response;
     })
     .catch((error) => {

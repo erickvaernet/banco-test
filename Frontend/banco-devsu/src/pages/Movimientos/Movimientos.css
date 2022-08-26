@@ -1,16 +1,16 @@
-.main{
-    flex-grow: 1;
-    padding: 1.5625rem 3.125rem 1.5625rem 3.125rem;
+.main {
+  flex-grow: 1;
+  padding: 1.5625rem 3.125rem 1.5625rem 3.125rem;
 }
-.contenedor-tabla-flechas{
-    width: 97%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+.contenedor-tabla-flechas {
+  width: 97%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
-.main .contenedor-botonNuevo{
-    padding: 0 20px 0 0;
-    display: flex;
-    flex-direction: row;
-    justify-content: end;
+.main .contenedor-botonNuevo {
+  padding: 0 20px 0 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: end;
 }
