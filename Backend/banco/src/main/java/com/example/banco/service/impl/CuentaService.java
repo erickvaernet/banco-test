@@ -2,12 +2,15 @@ package com.example.banco.service.impl;
 
 import com.example.banco.dto.CuentaDTO;
 import com.example.banco.dto.PaginaDTO;
+import com.example.banco.exception.ClientIllegalArgumentException;
 import com.example.banco.exception.EntityNotFoundException;
 import com.example.banco.exception.InvalidIdException;
 import com.example.banco.model.Cuenta;
+import com.example.banco.model.enums.TipoCuentasEnum;
 import com.example.banco.repository.ICuentaRepository;
 import com.example.banco.service.ICuentaService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.InvalidPropertyException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -34,6 +37,7 @@ public class CuentaService implements ICuentaService {
     @Override
     @Transactional
     public CuentaDTO createCuenta(CuentaDTO cuentaDTO) {
+        controlarSaldo(cuentaDTO);
         Cuenta cuenta = mapToEntity(cuentaDTO);
         Cuenta newCuenta = cuentaRepository.save(cuenta);
         return mapToDTO(newCuenta);
@@ -50,6 +54,7 @@ public class CuentaService implements ICuentaService {
         if(cuentaDTO.getSaldo() != null) cuenta.setSaldo(cuentaDTO.getSaldo());
         if(cuentaDTO.getTipo()!= null) cuenta.setTipo(cuentaDTO.getTipo());
         if (cuentaDTO.getEstado() != null) cuenta.setEstado(cuentaDTO.getEstado());
+        controlarSaldo(cuenta);
         Cuenta cuentaActualizada = cuentaRepository.save(cuenta);
         return mapToDTO(cuentaActualizada);
     }
@@ -60,6 +65,7 @@ public class CuentaService implements ICuentaService {
         if(numeroCuenta==null || numeroCuenta <= 0) throw new InvalidIdException();
         cuentaRepository.findById(numeroCuenta)
                 .orElseThrow(()-> new EntityNotFoundException(ENTITY_NOT_FOUND_MESSAGE));
+        controlarSaldo(cuentaDTO);
         cuentaRepository.save(mapToEntity(cuentaDTO));
         cuentaDTO.setNumeroCuenta(numeroCuenta);
         return cuentaDTO;
@@ -91,6 +97,14 @@ public class CuentaService implements ICuentaService {
         return new PaginaDTO<>(numeroPagina , tamanioPagina , cantidad, listaCuentasDTO);
     }
 
+    private void controlarSaldo(CuentaDTO cuentaDTO){
+        if(cuentaDTO.getTipo().equals(TipoCuentasEnum.AHORRO) && cuentaDTO.getSaldo()<0 )
+            throw new ClientIllegalArgumentException("La cuenta de tipo ahorro no puede tener menos de 0 en saldo");
+    }
+    private void controlarSaldo(Cuenta cuenta){
+        if(cuenta.getTipo().equals(TipoCuentasEnum.AHORRO) && cuenta.getSaldo()<0 )
+            throw new ClientIllegalArgumentException("La cuenta de tipo ahorro no puede tener menos de 0 en saldo");
+    }
     private CuentaDTO mapToDTO(Cuenta cuenta) {
         return objectMapper.convertValue(cuenta, CuentaDTO.class);
     }

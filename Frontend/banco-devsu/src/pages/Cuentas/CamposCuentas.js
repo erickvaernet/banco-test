@@ -11,7 +11,7 @@ const CamposCuentas = [
       nombre:"saldo",
       nombreForm: "saldo",
       tipo: "number",
-      placeHolder: "Erick Vaernet"
+      placeHolder: "1600.50"
     },
     {
       nombre:"estado" ,
@@ -22,10 +22,7 @@ const CamposCuentas = [
     {
       nombre:"cliente" ,
       nombreForm: "cliente",
-      subpropGet:"nombres",
-      subpropRequest:"id",
-      tipo: "select",
-      placeHolder: "Juan Perez"
+      tipo: "custom",
     }
   ];
 

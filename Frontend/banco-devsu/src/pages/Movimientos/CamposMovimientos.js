@@ -10,7 +10,7 @@ const CamposMovimientos =[
       nombre: "valor",
       nombreForm: "Valor",
       tipo: "number",
-      placeHolder: "1000.00"        
+      placeHolder: "1600.60"
     },
     {
       nombre: "cuenta",

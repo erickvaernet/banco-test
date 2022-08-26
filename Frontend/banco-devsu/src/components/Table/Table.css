@@ -22,3 +22,8 @@ table.table-primary {
 .table-primary tr:nth-child(even) {
     background-color: #dddddd;
 }
+
+.cliente-seleccionado:hover{
+    background-color: #99f312cb !important ; 
+    cursor: pointer;
+}

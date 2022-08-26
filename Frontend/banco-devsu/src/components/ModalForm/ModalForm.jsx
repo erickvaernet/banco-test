@@ -16,6 +16,7 @@ const ModalForm = (props) => {
             <H1>{titulo}</H1>
             <form onSubmit={handleSubmit(onSubmit)} className="modal-form">
                 {campos.map((campo,index)=>
+                campo.tipo!="custom"?
                 <InputFormText key={index}
                     checkOrRadioValues={campo.values}
                     type={campo.tipo}
@@ -23,7 +24,7 @@ const ModalForm = (props) => {
                     nombreLabel={campo.nombreForm}
                     nombre={campo.nombre}
                     placeholder={campo.placeHolder}
-                />
+                />:null
                 )}
                 {children}
               <Button type="submit" onClick={handleSubmit}>

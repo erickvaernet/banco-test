@@ -11,3 +11,22 @@
 .button-primary:hover{
     cursor: pointer;
 }
+
+.button-secondary{
+    background-color: #1ef75f60;
+    padding: 0.625rem 3.75rem 0.625rem 3.75rem;
+    color: #000000;
+    border-width: 0;
+    border-radius: 0.625rem ;
+    font-weight: bold;
+    font-family: 'Times New Roman', Times, serif;
+    opacity: 1;
+    box-shadow: 0rem 0.0625rem 0.3125rem rgb(0 0 0 / 15%);
+    border-radius: 0.3125rem;
+    max-width: 20rem;
+    padding: 0.5rem;
+    border-radius: 0.3125rem;
+    font-size: 1.125rem;
+    cursor: pointer;
+    border: #000000 solid 1px;
+}

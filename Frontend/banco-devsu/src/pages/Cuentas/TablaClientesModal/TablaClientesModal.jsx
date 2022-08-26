@@ -3,11 +3,12 @@ import Table from "../../../components/Table/Table";
 import FlechasPaginacion from "../../../components/FlechasPaginacion/FlechasPaginacion";
 import { listService } from "../../../service/listService";
 import "../../Clientes/Clientes.css";
-import "./TablaClientes.css";
+import "./TablaClientesModal.css";
 import camposClientes from "../../Clientes/CamposClientes.js";
 import Modal from "../../../components/Modal/Modal";
+import { getByIdService } from "../../../service/getByIdService";
 
-const TablaClientes = ({tablaClientes,setTablaClientes,setClienteId}) => {
+const TablaClientesModal = ({setClienteSelect,tablaClientes,setTablaClientes,setClienteId, setClienteNombre}) => {
   const uri="/clientes";
   const nombresProps = camposClientes.map((campos) => campos["nombre"]);
   const columnas = camposClientes.map((campos) => campos["nombreForm"]);
@@ -23,9 +24,10 @@ const TablaClientes = ({tablaClientes,setTablaClientes,setClienteId}) => {
     });
   }, [numeroPagina])
 
-  const onSelectRow=(event)=>{
-    setClienteId(event.target.value)
-    event.target.classList.add(".cliente-seleccionado")
+  const onSelectRow=(id,nombre)=>{
+    console.log(nombre)
+    setClienteSelect({id:id,nombres:nombre})
+    setTablaClientes(false);
   }
   return (
     <Modal open={tablaClientes} setOpen={setTablaClientes}>
@@ -37,6 +39,7 @@ const TablaClientes = ({tablaClientes,setTablaClientes,setClienteId}) => {
               filas={filas}
               CRUDTable={false}
               onSelectRow={onSelectRow}
+              setClienteNombre={setClienteNombre}
           />
           ) : null}
           <FlechasPaginacion
@@ -49,4 +52,4 @@ const TablaClientes = ({tablaClientes,setTablaClientes,setClienteId}) => {
   )
 }
 
-export default TablaClientes
+export default TablaClientesModal
