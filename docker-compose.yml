@@ -1,4 +1,4 @@
-version: "3.8"
+version: "2.0"
 services:
   mysqldb:
     image: mysql:8.0
@@ -9,26 +9,18 @@ services:
       - MYSQL_DATABASE=banco
     ports:
       - 3306:3306
-    volumes:
-      - db:/var/lib/mysql
   app:
     container_name: app
     depends_on:
       - mysqldb
-    build: ./Backend/banco
+    build: 
+      context: ./Backend/banco
     restart: on-failure
-    ports:
-      - 5000:5000
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://localhost:3306/banco?useSSL=false&serverTimezone=UTC&allowPublicKeyRetrival=true&createDatabaseIfNotExist=true
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysqldb:3306/banco?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC&createDatabaseIfNotExist=true
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=root
       - SPRING_JPA_HIBERNATE_DDL_AUTO=update
       - SPRING_JACKSON_SERIALIZATION_FAIL_ON_EMPTY_BEANS=false
     ports:
-      - 5000:5000
-    volumes:
-      - .m2:/banco/.m2
-volumes:
-  db:
- 
+      - 8080:8080
