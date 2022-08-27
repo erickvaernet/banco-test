@@ -24,3 +24,15 @@ services:
       - SPRING_JACKSON_SERIALIZATION_FAIL_ON_EMPTY_BEANS=false
     ports:
       - 8080:8080
+  frontend:
+    container_name: frontend
+    build: ./Frontend/banco-devsu
+    volumes:
+      - './:/app'
+      - '/app/node_modules'
+    ports:
+      - 3000:3000
+    stdin_open: true
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    command: npm start
